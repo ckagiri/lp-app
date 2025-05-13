@@ -1,7 +1,6 @@
-import { CoreFrameContext, CoreFrameContextProps } from "./CoreFrameContext";
-import { CoreFrameUI, CoreFrameUIProps } from "./CoreFrameUI";
+import { CoreFrameContext, CoreFrameContextProps, CoreFrameUI, CoreFrameUIProps } from "../frame";
 
-export const CoreFrame = (props: CoreFrameProps) => {
+export const Frame = (props: CoreFrameProps) => {
   const {
     adminLayout,
     appLayout,

@@ -10,10 +10,15 @@ export const AppRoutes = (_props: FrameRoutesProps) => {
 };
 AppRoutes.uiName = 'AppRoutes';
 
-export const AdminCustomRoutes = (_props: FrameRoutesProps) => {
+export const AdminRoutes = (_props: FrameRoutesProps) => {
   return null;
 };
-AdminCustomRoutes.uiName = 'AdminCustomRoutes';
+AdminRoutes.uiName = 'AdminRoutes';
+
+export const Admin = (_props: FrameRoutesProps) => {
+  return null;
+};
+Admin.uiName = 'Admin';
 
 export type FrameRoutesProps = {
   children: ReactNode;

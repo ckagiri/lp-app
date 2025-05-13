@@ -41,7 +41,13 @@ const getRoutesAndResourceFromNodes = (
     } else if ((element.type as any).uiName === 'AppRoutes') {
       const routesElement = element as ReactElement<FrameRoutesProps>;
       appRoutes.push(routesElement.props.children);
-    } else if ((element.type as any).uiName === 'AdminCustomRoutes') {
+    } else if ((element.type as any).uiName === 'AdminRoutes') {
+      const routesElement = element as ReactElement<FrameRoutesProps>;
+      const routesFromChildren = getRoutesAndResourceFromNodes(routesElement.props.children);
+
+      adminCustomRoutes.push(...routesFromChildren.adminCustomRoutes);
+      resources.push(...routesFromChildren.resources);
+    } else if ((element.type as any).uiName === 'Admin') {
       const routesElement = element as ReactElement<FrameRoutesProps>;
       adminCustomRoutes.push(routesElement.props.children);
     } else if ((element.type as any).uiName === 'Resource') {
