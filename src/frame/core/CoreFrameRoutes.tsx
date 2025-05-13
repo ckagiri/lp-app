@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useScrollToTop } from "../routing";
 import { CatchAllComponent, FrameChildren, LayoutComponent, LoadingComponent } from "../types";
 import { Children } from "react";
+import { useConfigureFrameRouterFromChildren } from "./useConfigureFrameRouterFromChildren";
+import { useCreatePath } from "../routing/useCreatePath";
 
 export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
   useScrollToTop();
@@ -10,9 +12,9 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
     appRoutes,
     adminCustomRoutes,
     shellRoutes,
-    status,
     resources,
   } = useConfigureFrameRouterFromChildren(props.children);
+  const createPath = useCreatePath();
 
   const {
     catchAll: CatchAll,
@@ -42,19 +44,19 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
                       element={resource}
                     />
                 ))}
-                {/* <Route
+                <Route
                   path="/"
                   element={
                     resources.length > 0 ? (
                       <Navigate
                         to={createPath({
-                          resourcePath: resources[0].props.path,
+                          resourcePath: resources[0].props.route,
                           type: 'list',
                         })}
                       />
                     ) : null
                   }
-                /> */}
+                />
                 <Route path="*" element={<CatchAll />} />
               </Routes>
           </AdminLayout>

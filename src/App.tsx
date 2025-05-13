@@ -5,7 +5,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AppFrame />} />
+        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/admin/*" element={<AppFrame />} />
       </Routes>
     </BrowserRouter>
   );

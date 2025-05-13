@@ -23,6 +23,7 @@ export interface ResourceDefinition<OptionsType extends ResourceOptions = any> {
 }
 export interface ResourceProps {
   name: string;
+  route?: string;
   list?: ComponentType<any> | ReactElement;
   create?: ComponentType<any> | ReactElement;
   edit?: ComponentType<any> | ReactElement;
@@ -38,10 +39,8 @@ export interface ResourceProps {
 
 export type ResourceElement = ReactElement<ResourceProps>;
 export type RenderResourcesFunction = (permissions: any) =>
-    | ReactNode // (permissions) => <><Resource /><Resource /><Resource /></>
-    | Promise<ReactNode> // (permissions) => fetch().then(() => <><Resource /><Resource /><Resource /></>)
-    | ResourceElement[] // // (permissions) => [<Resource />, <Resource />, <Resource />]
-    | Promise<ResourceElement[]>; // (permissions) => fetch().then(() => [<Resource />, <Resource />, <Resource />])
+  | ReactNode // (permissions) => <><Resource /><Resource /><Resource /></>
+  | ResourceElement[] // (permissions) => [<Resource />, <Resource />, <Resource />]
 export type FrameChildren =
   | RenderResourcesFunction
   | Iterable<ReactNode | RenderResourcesFunction>

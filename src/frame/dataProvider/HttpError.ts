@@ -1,6 +1,6 @@
 class HttpError extends Error {
   constructor(
-    public readonly message: string | undefined,
+    public readonly message: string,
     public readonly status: any,
     public readonly body: any = null,
   ) {
