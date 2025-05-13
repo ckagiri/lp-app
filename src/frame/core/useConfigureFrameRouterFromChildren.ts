@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Children, ReactElement, ReactNode, useEffect } from "react";
+import { Children, ReactElement, ReactNode, useEffect, useState } from "react";
 import { FrameChildren, ResourceDefinition, ResourceProps } from "../types";
 import { FrameRoutesProps } from "./types";
 import { useResourceDefinitionContext } from "./useResourceDefinitionContext";
@@ -7,7 +7,7 @@ import { useResourceDefinitionContext } from "./useResourceDefinitionContext";
 export const useConfigureFrameRouterFromChildren = (
   children: FrameChildren,
 ): RoutesAndResources => {
-  const routesAndResources = getRoutesAndResourceFromNodes(children);
+  const [routesAndResources, ] = useState(getRoutesAndResourceFromNodes(children));
 
   useRegisterResources(routesAndResources.resources);
 

@@ -8,7 +8,6 @@ export const CoreFrame = (props: CoreFrameProps) => {
     basename,
     catchAll,
     children,
-    shellLayout,
     queryClient,
   } = props;
 
@@ -19,7 +18,6 @@ export const CoreFrame = (props: CoreFrameProps) => {
     >
       <CoreFrameUI
         catchAll={catchAll}
-        shellLayout={shellLayout}
         appLayout={appLayout}
         adminLayout={adminLayout}
       >

@@ -3,7 +3,9 @@ import { CompetitionList } from "../admin/competitions/CompetitionList";
 import { AdminRoutes, Resource } from "../frame";
 
 const AppFrame = () => (
-  <Frame>
+  <Frame
+    basename="/admin"
+  >
     <AdminRoutes>
       <Resource
         name="competitions"

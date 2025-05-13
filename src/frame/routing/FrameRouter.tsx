@@ -13,9 +13,7 @@ export const FrameRouter = ({ basename = '', children }: FrameRouterProps) => {
   const Router = isInRouter ? DummyRouter : InternalRouter;
 
   return (
-    <BasenameContextProvider basename={isInRouter ? basename : ''}>
-      <Router basename={basename}>{children}</Router>
-    </BasenameContextProvider>
+    <Router basename={basename}>{children}</Router>
   );
 };
 
