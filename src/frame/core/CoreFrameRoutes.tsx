@@ -44,16 +44,6 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
                           element={resource}
                         />
                       ))}
-                      {/* <Route
-                        path="/"
-                        element={
-                          resources.length > 0 ? (
-                            <Navigate
-                              to="/admin/competitions"
-                            />
-                          ) : null
-                        }
-                      /> */}
                       <Route
                         path="/"
                         element={<NavigateToDefaultResource />}
