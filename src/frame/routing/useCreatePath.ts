@@ -9,7 +9,7 @@ export const useCreatePath = () => {
         ['list', 'create', 'edit', 'show'].includes(type) && !resourcePath
       ) {
         throw new Error(
-            'Cannot create a link without a resource. You must provide the resource name.'
+          'Cannot create a link without a resource-path.'
         );
       }
       switch (type) {

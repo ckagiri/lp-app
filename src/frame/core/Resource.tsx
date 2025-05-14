@@ -42,6 +42,7 @@ Resource.registerResource = ({
     icon,
     list,
     name,
+    route,
     options,
     show,
     recordRepresentation,
@@ -50,6 +51,7 @@ Resource.registerResource = ({
     hasShow,
 }: ResourceProps) => ({
     name,
+    route,
     options,
     hasList: !!list,
     hasCreate: !!create || !!hasCreate,

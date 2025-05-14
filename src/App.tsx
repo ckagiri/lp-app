@@ -1,15 +1,17 @@
-import React from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
-import AppFrame from './root/AppFrame';
+import { createBrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router-dom';
+import Ligi from './root/Ligi';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AppFrame />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+const App = () => {
+  const router = createBrowserRouter([
+      {
+          path: "*",
+          element: (
+            <Ligi />
+          ),
+      },
+  ]);
+  return <RouterProvider router={router} />;
+};
 
 export default App

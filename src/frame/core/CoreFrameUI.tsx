@@ -6,7 +6,6 @@ import { CoreFrameRoutes } from "./CoreFrameRoutes";
 export interface CoreFrameUIProps {
   catchAll?: CatchAllComponent;
   children?: FrameChildren;
-  appLayout?: LayoutComponent;
   adminLayout?: LayoutComponent;
   loading?: LoadingComponent;
 }
@@ -19,7 +18,6 @@ export const CoreFrameUI = (props: CoreFrameUIProps) => {
   const {
     catchAll = Noop,
     children,
-    appLayout = DefaultLayout,
     adminLayout = DefaultLayout,
     loading = Noop,
   } = props;
@@ -31,7 +29,6 @@ export const CoreFrameUI = (props: CoreFrameUIProps) => {
         element={
           <CoreFrameRoutes
             catchAll={catchAll}
-            appLayout={appLayout}
             adminLayout={adminLayout}
             loading={loading}
           >

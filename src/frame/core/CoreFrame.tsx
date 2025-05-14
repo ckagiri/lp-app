@@ -4,7 +4,6 @@ import { CoreFrameUI, CoreFrameUIProps } from "./CoreFrameUI";
 export const CoreFrame = (props: CoreFrameProps) => {
   const {
     adminLayout,
-    appLayout,
     basename,
     catchAll,
     children,
@@ -18,7 +17,6 @@ export const CoreFrame = (props: CoreFrameProps) => {
     >
       <CoreFrameUI
         catchAll={catchAll}
-        appLayout={appLayout}
         adminLayout={adminLayout}
       >
         {children}

@@ -1,10 +1,10 @@
-import { Navigate, Route, Routes, useInRouterContext } from "react-router-dom";
+import { Route, Routes, useInRouterContext } from "react-router-dom";
 import { useScrollToTop } from "../routing";
 import { CatchAllComponent, FrameChildren, LayoutComponent, LoadingComponent } from "../types";
 import { Children } from "react";
 import { useConfigureFrameRouterFromChildren } from "./useConfigureFrameRouterFromChildren";
-import { useCreatePath } from "../routing/useCreatePath";
 import { BasenameContextProvider } from "../routing/BasenameContextProvider";
+import { NavigateToDefaultResource } from "./NavigateToDefaultResource";
 
 export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
   useScrollToTop();
@@ -15,12 +15,10 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
     shellRoutes,
     resources,
   } = useConfigureFrameRouterFromChildren(props.children);
-  const createPath = useCreatePath();
   const isInRouter = useInRouterContext();
 
   const {
     catchAll: CatchAll,
-    appLayout: AppLayout,
     adminLayout: AdminLayout,
   } = props;
 
@@ -31,49 +29,42 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
         path="/*"
         element={
           <Routes>
-            <Route
-              path="/contests/*"
-              />
+            {appRoutes}
             <Route
               path="/admin/*"
+              element={
+                <BasenameContextProvider basename={isInRouter ? '/admin' : ''}>
+                  <AdminLayout>
+                    <Routes>
+                      {adminCustomRoutes}
+                      {Children.map(resources, resource => (
+                        <Route
+                          key={resource.props.name}
+                          path={`${resource.props.route}/*`}
+                          element={resource}
+                        />
+                      ))}
+                      {/* <Route
+                        path="/"
+                        element={
+                          resources.length > 0 ? (
+                            <Navigate
+                              to="/admin/competitions"
+                            />
+                          ) : null
+                        }
+                      /> */}
+                      <Route
+                        path="/"
+                        element={<NavigateToDefaultResource />}
+                      />
+                      <Route path="*" element={<CatchAll />} />
+                    </Routes>
+                  </AdminLayout>
+                </BasenameContextProvider>
+              }
             />
-          <AppLayout>
-            <Routes>
-              {appRoutes}
-              <Route
-                  path="/"
-                  element={
-                    (<div>Hello From App</div>)
-                  }
-                />
-            </Routes>
-          </AppLayout>
-        }
-      />
-      <Route
-        path="/admin/*"
-        element={
-          <BasenameContextProvider basename={isInRouter ? 'admin' : ''}>
-            <AdminLayout>
-              <Routes>
-                {/* {adminCustomRoutes}
-                {Children.map(resources, resource => (
-                  <Route
-                    key={resource.props.name}
-                    path={`${resource.props.route}/*`}
-                    element={resource}
-                  />
-                ))} */}
-                <Route
-                  path="/"
-                  element={
-                    (<div>Hello</div>)
-                  }
-                />
-                <Route path="*" element={<CatchAll />} />
-              </Routes>
-            </AdminLayout>
-          </BasenameContextProvider>
+          </Routes>
         }
       />
     </Routes>
@@ -83,7 +74,6 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
 export interface CoreFrameRoutesProps {
   catchAll: CatchAllComponent;
   children?: FrameChildren;
-  appLayout: LayoutComponent;
   adminLayout: LayoutComponent;
   loading?: LoadingComponent;
 };

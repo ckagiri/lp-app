@@ -1,19 +1,27 @@
-import { Frame } from "./Frame";
-import { CompetitionList } from "../admin/competitions/CompetitionList";
-import { AdminRoutes, Resource } from "../frame";
+import { CoreFrameContext, CoreFrameContextProps, CoreFrameUI, CoreFrameUIProps } from "../frame";
 
-const AppFrame = () => (
-  <Frame
-    basename="/admin"
-  >
-    <AdminRoutes>
-      <Resource
-        name="competitions"
-        route="competitions"
-        list={CompetitionList}
-      />
-    </AdminRoutes>
-  </Frame>
-);
+export const AppFrame = (props: CoreFrameProps) => {
+  const {
+    adminLayout,
+    basename,
+    catchAll,
+    children,
+    queryClient,
+  } = props;
 
-export default AppFrame;
+  return (
+    <CoreFrameContext
+      basename={basename}
+      queryClient={queryClient}
+    >
+      <CoreFrameUI
+        catchAll={catchAll}
+        adminLayout={adminLayout}
+      >
+        {children}
+      </CoreFrameUI>
+    </CoreFrameContext>
+  );
+}
+
+export type CoreFrameProps = CoreFrameContextProps & CoreFrameUIProps;
