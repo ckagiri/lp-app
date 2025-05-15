@@ -4,19 +4,17 @@ import { CoreFrameUI, CoreFrameUIProps } from "./CoreFrameUI";
 export const CoreFrame = (props: CoreFrameProps) => {
   const {
     adminLayout,
-    basename,
-    catchAll,
+    dataProvider,
     children,
     queryClient,
   } = props;
 
   return (
     <CoreFrameContext
-      basename={basename}
+      dataProvider={dataProvider}
       queryClient={queryClient}
     >
       <CoreFrameUI
-        catchAll={catchAll}
         adminLayout={adminLayout}
       >
         {children}

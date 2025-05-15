@@ -1,23 +1,30 @@
-import * as React from 'react';
 import { useMemo } from 'react';
-import { QueryClientProvider, QueryClient, Query } from '@tanstack/react-query';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { FrameRouter } from '../routing/FrameRouter';
-import { FrameChildren } from '../types';
+import { DataProvider, DataProviderFn, FrameChildren } from '../types';
 import { ResourceDefinitionContextProvider } from './ResourceDefinitionContext';
+import { DataProviderContext, dataProviderTransform, defaultDataProvider } from '../dataProvider';
 
 export interface CoreFrameContextProps {
-  basename?: string;
   children: FrameChildren,
+  dataProvider?: DataProvider | DataProviderFn,
   queryClient?: QueryClient
 };
 
 export const CoreFrameContext = (props: CoreFrameContextProps) => {
   const {
-    basename,
+    dataProvider = defaultDataProvider,
     children,
     queryClient
   } = props;
+
+  const finalDataProvider = useMemo(
+    () => dataProvider instanceof Function
+      ? dataProviderTransform(dataProvider)
+      : dataProvider,
+    [dataProvider]
+  );
 
   const finalQueryClient = useMemo(
     () => queryClient || new QueryClient(),
@@ -25,12 +32,14 @@ export const CoreFrameContext = (props: CoreFrameContextProps) => {
   );
 
   return (
-    <QueryClientProvider client={finalQueryClient}>
-      <FrameRouter basename={basename}>
-        <ResourceDefinitionContextProvider>
-          {children}
-        </ResourceDefinitionContextProvider>
-      </FrameRouter>
-    </QueryClientProvider>
+    <DataProviderContext.Provider value={finalDataProvider}>
+      <QueryClientProvider client={finalQueryClient}>
+        <FrameRouter>
+          <ResourceDefinitionContextProvider>
+            {children}
+          </ResourceDefinitionContextProvider>
+        </FrameRouter>
+      </QueryClientProvider>
+    </DataProviderContext.Provider>
   );
 };

@@ -1,7 +1,29 @@
+import { ListBase, useListContext } from "../../frame";
+
 export const CompetitionList = () => {
   return (
-    <div>
-      <h1>Competition List</h1>
-    </div>
+    <ListBase>
+      <CompetitionListView />
+    </ListBase>
   );
-}
+};
+
+const CompetitionListView = () => {
+  const { data, isLoading, resource } = useListContext();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <ul>
+      {data?.map(record => (
+        <li key={record.id}>
+          {record.name}&nbsp;
+          {record.slug}&nbsp;
+          {resource.path}
+        </li>
+      ))}
+    </ul>
+  );
+};

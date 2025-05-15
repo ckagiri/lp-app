@@ -1,12 +1,9 @@
-import * as React from 'react';
 import { ReactNode } from 'react';
 import {
     useInRouterContext,
     createHashRouter,
     RouterProvider,
 } from 'react-router-dom';
-
-import { BasenameContextProvider } from './BasenameContextProvider';
 
 export const FrameRouter = ({ basename = '', children }: FrameRouterProps) => {
   const isInRouter = useInRouterContext();

@@ -3,19 +3,17 @@ import { CoreFrameContext, CoreFrameContextProps, CoreFrameUI, CoreFrameUIProps 
 export const AppFrame = (props: CoreFrameProps) => {
   const {
     adminLayout,
-    basename,
-    catchAll,
     children,
+    dataProvider,
     queryClient,
   } = props;
 
   return (
     <CoreFrameContext
-      basename={basename}
+      dataProvider={dataProvider}
       queryClient={queryClient}
     >
       <CoreFrameUI
-        catchAll={catchAll}
         adminLayout={adminLayout}
       >
         {children}

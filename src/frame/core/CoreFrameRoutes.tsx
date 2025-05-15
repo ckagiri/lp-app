@@ -1,4 +1,4 @@
-import { Route, Routes, useInRouterContext } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useScrollToTop } from "../routing";
 import { CatchAllComponent, FrameChildren, LayoutComponent, LoadingComponent } from "../types";
 import { Children } from "react";
@@ -15,7 +15,6 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
     shellRoutes,
     resources,
   } = useConfigureFrameRouterFromChildren(props.children);
-  const isInRouter = useInRouterContext();
 
   const {
     catchAll: CatchAll,
@@ -33,7 +32,7 @@ export const CoreFrameRoutes = (props: CoreFrameRoutesProps) => {
             <Route
               path="/admin/*"
               element={
-                <BasenameContextProvider basename={isInRouter ? '/admin' : ''}>
+                <BasenameContextProvider basename={'/admin'}>
                   <AdminLayout>
                     <Routes>
                       {adminCustomRoutes}
