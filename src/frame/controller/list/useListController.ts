@@ -20,14 +20,14 @@ export const useListController = <
     );
   }
 
+  const params = useParams();
   let resourcePath = resource.path;
   if (!resourcePath) {
-    const params = useParams();
     resourcePath = generatePath((resource.route || resource.name) as string, params);
     resource.path = resourcePath;
   }
 
-  const { data, total, error, isLoading, isFetching, isPending } = useGetList<
+  const { data, total, error, isLoading, isFetching } = useGetList<
     RecordType,
     ErrorType
   >(
