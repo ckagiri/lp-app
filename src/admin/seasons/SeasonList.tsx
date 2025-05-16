@@ -34,11 +34,12 @@ const SeasonListView = () => {
   );
 };
 
-type SeasonLinkProps = {
+type RoundsLinkProps = {
   seasonPath: string;
 }
+type TeamsLinkProps = RoundsLinkProps;
 
-const RoundsLink = ({ seasonPath }: SeasonLinkProps) => {
+const RoundsLink = ({ seasonPath }: RoundsLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link
@@ -49,7 +50,7 @@ const RoundsLink = ({ seasonPath }: SeasonLinkProps) => {
   )
 };
 
-const TeamsLink = ({ seasonPath }: SeasonLinkProps) => {
+const TeamsLink = ({ seasonPath }: TeamsLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link

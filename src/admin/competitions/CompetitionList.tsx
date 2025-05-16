@@ -28,11 +28,11 @@ const CompetitionListView = () => {
   );
 };
 
-type CompetitionLinkProps = {
+type SeasonsLinkProps = {
   competitionPath: string;
 }
 
-const SeasonsLink = ({ competitionPath }: CompetitionLinkProps) => {
+const SeasonsLink = ({ competitionPath }: SeasonsLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link

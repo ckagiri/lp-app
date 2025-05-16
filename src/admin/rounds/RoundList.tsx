@@ -10,10 +10,10 @@ const RoundList = () => {
   );
 };
 
-type RoundLinkProps = {
+type MatchesLinkProps = {
   roundPath: string;
 }
-const MatchesLink = ({ roundPath }: RoundLinkProps) => {
+const MatchesLink = ({ roundPath }: MatchesLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link
