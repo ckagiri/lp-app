@@ -7,16 +7,26 @@ export default (
 ): DataProvider => ({
   getList: (resource, params) => {
     const { page, perPage } = params.pagination || { page: 1, perPage: 10 };
-    const { field, order } = params.sort || { field: 'id', order: 'ASC' };
+
+    const query: {
+      range?: string;
+      filter?: string;
+      sort?: string;
+    } = {};
 
     const rangeStart = (page - 1) * perPage;
     const rangeEnd = page * perPage - 1;
+    query.range = JSON.stringify([rangeStart, rangeEnd]);
 
-    const query = {
-      sort: JSON.stringify([field, order]),
-      range: JSON.stringify([rangeStart, rangeEnd]),
-      filter: JSON.stringify(params.filter),
-    };
+    if (params.filter) {
+      query.filter = JSON.stringify(params.filter);
+    }
+
+    if (params.sort) {
+      const { field, order } = params.sort;
+      query.sort = JSON.stringify([field, order]);
+    }
+
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
     const options = { signal: params?.signal };
 

@@ -21,8 +21,8 @@ export const useGetList = <
 ): UseGetListHookValue<RecordType> => {
   const {
     pagination = { page: 1, perPage: 25 },
-    sort = {},
-    filter = {},
+    sort,
+    filter,
     meta,
   } = params;
   const dataProvider = useDataProvider();
