@@ -3,3 +3,4 @@ export * from './controller'
 export * from './dataProvider'
 export * from './types'
 export * from './util';
+export * from './routing'

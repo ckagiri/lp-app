@@ -12,7 +12,7 @@ export const NavigateToDefaultResource = () => {
     return (
       <Navigate
         to={createPath({
-          resourcePath: defaultResource.name,
+          resource: defaultResource.name,
           type: 'list',
         })}
         replace={true}

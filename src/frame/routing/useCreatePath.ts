@@ -4,17 +4,19 @@ import { useBasename } from './useBasename';
 export const useCreatePath = () => {
   const basename = useBasename();
   return useCallback(
-    ({ resourcePath, type }: CreatePathParams): string => {
+    ({ parent, resource, type }: CreatePathParams): string => {
       if (
-        ['list', 'create', 'edit', 'show'].includes(type) && !resourcePath
+        ['list', 'create', 'edit', 'show'].includes(type) && !resource
       ) {
         throw new Error(
-          'Cannot create a link without a resource-path.'
+          'Cannot create a link without a resource path.'
         );
       }
       switch (type) {
         case 'list':
-          return removeDoubleSlashes(`${basename}/${resourcePath}`);
+          return parent
+            ? removeDoubleSlashes(`${basename}/${parent}/${resource}`)
+            : removeDoubleSlashes(`${basename}/${resource}`);
         default:
           return type;
       }
@@ -24,7 +26,8 @@ export const useCreatePath = () => {
 
 export interface CreatePathParams {
   type: string;
-  resourcePath?: string;
+  resource?: string;
+  parent?: string;
 }
 
 export const removeDoubleSlashes = (path: string) => path.replace('//', '/');
