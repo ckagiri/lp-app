@@ -4,6 +4,7 @@ export type Identifier = string | number;
 export interface UiRecord<IdentifierType extends Identifier = Identifier>
   extends Record<string, any> {
     id: IdentifierType;
+    slug?: string;
 }
 
 export interface ResourceOptions {

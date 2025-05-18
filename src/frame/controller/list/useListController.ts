@@ -15,8 +15,7 @@ export const useListController = <
 
   if (!resource?.name && !resource?.route && !resource?.path) {
     throw new Error(
-      `useListController requires a non-empty resource with at least one of
-        name, route or path prop or context with such`
+      `useListController requires a non-empty resource prop or context`
     );
   }
 

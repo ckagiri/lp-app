@@ -5,6 +5,8 @@ import * as fetchUtils from './fetch';
 
 export * from './defaultDataProvider';
 export * from './useGetList';
+export * from './useGetOne';
+export * from './useRefresh';
 
 export {
   DataProviderContext,

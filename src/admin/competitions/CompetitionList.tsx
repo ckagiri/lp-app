@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { ListBase, useCreatePath, useListContext } from "../../frame";
+import { ListBase, RecordContextProvider, useCreatePath, useListContext } from "../../frame";
+import { ShowButton } from "../../ui-materialui";
 
 const CompetitionList = () => {
   return (
@@ -19,10 +20,13 @@ const CompetitionListView = () => {
   return (
     <ul>
       {data?.map(record => (
-        <li key={record.id}>
-          {record.name}&nbsp;
-          <SeasonsLink competitionPath={`${resource.path}/${record.slug}`} />
-        </li>
+        <RecordContextProvider key={record.id} value={record}>
+          <li key={record.id}>
+            {record.name} &nbsp;
+            <ShowButton />
+            <SeasonsLink competitionPath={`${resource.path}/${record.slug}`} />
+          </li>
+        </RecordContextProvider>
       ))}
     </ul>
   );

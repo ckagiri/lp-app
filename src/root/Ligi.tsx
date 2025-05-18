@@ -23,6 +23,7 @@ const Ligi = () => (
         name="competitions"
         route="competitions"
         list={competitions.list}
+        show={competitions.show}
       />
       <Resource
         name="seasons"

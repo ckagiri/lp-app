@@ -5,7 +5,7 @@ import { ResourceProps } from "../types";
 import { ResourceContextProvider } from "./ResourceContextProvider";
 
 export const Resource = (props: ResourceProps) => {
-    const { list, name, route } = props;
+    const { list, show, edit, name, route } = props;
 
     return (
         <ResourceContextProvider value={{ name, route }}>
@@ -16,6 +16,8 @@ export const Resource = (props: ResourceProps) => {
                         element={getElement(list)}
                     />
                 )}
+                {show && <Route path=":id/show/*" element={getElement(show)} />}
+                {edit && <Route path=":id/*" element={getElement(edit)} />}
                 {props.children}
             </Routes>
         </ResourceContextProvider>
