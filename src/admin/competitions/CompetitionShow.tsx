@@ -1,13 +1,15 @@
 import { Card, Stack, Typography } from '@mui/material';
 import { ShowBase, useShowContext } from '../../frame';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import { ListButton } from '../../ui-materialui';
 
 const CompetitionShow = () => (
   <ShowBase>
-    <CompetitionShowContent />
+    <CompetitionShowView />
   </ShowBase>
 );
 
-const CompetitionShowContent = () => {
+const CompetitionShowView = () => {
   const { record: data, isLoading } = useShowContext();
 
   if (isLoading) {
@@ -19,13 +21,13 @@ const CompetitionShowContent = () => {
       <Card>
         <Stack spacing={1}>
           <div>
-            <Typography variant="caption" sx={{ display: "block" }}>
+            <Typography variant="caption">
               Name
             </Typography>
             <Typography variant="body2">{data.name}</Typography>
           </div>
           <div>
-            <Typography variant="caption" sx={{ display: "block" }}>
+            <Typography variant="caption">
               Slug
             </Typography>
             <Typography variant="body2">
@@ -34,6 +36,7 @@ const CompetitionShowContent = () => {
           </div>
         </Stack>
       </Card>
+      <ListButton label="Back" icon={<ChevronLeft />} />
     </div>
   );
 };
