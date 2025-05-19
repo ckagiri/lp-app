@@ -90,9 +90,11 @@ export const useGetList = <
           [
             resourceValue.current,
             "getOne",
-            { id: recordId, meta: metaValue.current },
+            { id: recordId, },
           ],
-          (oldRecord) => oldRecord ?? record
+          (oldRecord) => {
+            return oldRecord ?? record
+          }
         );
       });
     }

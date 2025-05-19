@@ -7,10 +7,9 @@ export const resolveResourceLocationInfo = (
 ): ResourceLocationInfo[] => {
   const matchedLocations = resources
     .map((resource) => {
-      const match = matchPath({ path: resource.route, end: false}, pathname);
+      const match = matchPath({ path: resource.route, end: false }, pathname);
 
       if (match) {
-        console.log("match", match);
         return {
           resource,
           params: match.params,
@@ -25,40 +24,56 @@ export const resolveResourceLocationInfo = (
         params: Record<string, string>;
       };
       const { route: resourceRoute, name } = resourceDefinition;
-      const isExactMatch = matchPath({ path: resourceRoute, end: true }, pathname) != null;
 
       const resourcePath = generatePath(resourceRoute, pathParams);
-      const pathKey = pathname.replace(/\/:[^:/]+\//g, ".edit.");
+      const pathKey = resourceRoute.replace(/\/:[^:/]+\//g, ".edit.");
 
-      const createMatch = pathname.match(`^/${resourcePath}/create(/([^/]*))?$`);
+      const createMatch = pathname.match(`/${resourcePath}/create(/([^/]*))?`);
       if (createMatch) {
+        const isExactMatch =
+          matchPath(
+            { path: `${resourceRoute}/create/:id`, end: true },
+            pathname
+          ) !== null;
         return {
-          resource: { name, route: resourceRoute, path: resourcePath, },
+          resource: { name, route: resourceRoute, path: resourcePath },
           pathKey: `${pathKey}.create`,
           isExactMatch,
         };
       }
 
-      const showMatch = pathname.match(`^/${resourcePath}/([^/]+)/show(/([^/]*))?$`);
+      const showMatch = pathname.match(
+        `/${resourcePath}/([^/]+)/show(/([^/]*))?`
+      );
       if (showMatch) {
+        const isExactMatch =
+          matchPath({ path: `${resourceRoute}/:id/show`, end: true }, pathname) !==
+          null;
         return {
-          resource: { name, path: resourcePath, },
-          pathKey: `${pathKey}.show`, recordId: showMatch[1],
+          resource: { name, path: resourcePath },
+          pathKey: `${pathKey}.show`,
+          recordId: showMatch[1],
           isExactMatch,
         };
       }
 
-      const editMatch = pathname.match(`^/${resourcePath}/([^/]+)(/([^/]*))?$`);
+      const editMatch = pathname.match(`/${resourcePath}/([^/]+)(/([^/]*))?`);
       if (editMatch) {
+        const isExactMatch =
+          matchPath({ path: `${resourceRoute}/:id`, end: true }, pathname) !==
+          null;
         return {
-          resource: { name, path: resourcePath},
-          pathKey: `${pathKey}.edit`, recordId: editMatch[1],
+          resource: { name, path: resourcePath },
+          pathKey: `${pathKey}.edit`,
+          recordId: editMatch[1],
           isExactMatch,
         };
       }
 
-      const listMatch = pathname.match(`^/${resourcePath}/?$`);
+      const listMatch = pathname.match(`/${resourcePath}/?`);
       if (listMatch) {
+        const isExactMatch =
+          matchPath({ path: resourceRoute, end: true }, pathname) !== null;
         return {
           resource: { name, path: resourcePath },
           pathKey,

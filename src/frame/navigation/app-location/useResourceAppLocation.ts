@@ -4,6 +4,8 @@ import { useBasename } from "../../routing";
 import { useResourceDefinitions } from "../../core";
 import { AppLocation } from "./AppLocationContext";
 import { resolveResourceLocationInfo } from "./resolveResourceLocationInfo";
+import { useQueries } from "@tanstack/react-query";
+import { useDataProvider } from "../../dataProvider/useDataProvider";
 
 export const useResourceAppLocation = (): AppLocation | null => {
   const { pathname } = useLocation();
@@ -16,24 +18,37 @@ export const useResourceAppLocation = (): AppLocation | null => {
     Object.values(resources)
   );
 
-  const pathContext = resourceLocationInfo.reduce(
-    (acc: Record<string, any>, locationInfo) => {
-      if (!locationInfo.resource.name || !locationInfo.resource.path) {
-        return acc;
-      }
-      const { data: record } = useGetOne(
-        locationInfo.resource.path,
-        {
-          id: locationInfo.recordId,
-        },
-        { enabled: locationInfo.recordId != null }
-      );
-      acc[locationInfo.resource.name] = record;
-      return acc;
-    },
-    {} as Record<string, any>
-  );
-
+  const dataProvider = useDataProvider();
+  const resourceWithRecordList = resourceLocationInfo.filter(info => info.recordId != null)
+  // const combinedQueries = useQueries({
+  //   queries: resourceWithRecordList.map((locationInfo) => {
+  //     const { resource: resourceItem, recordId } = locationInfo;
+  //     const { path: resource } = resourceItem;
+  //     return {
+  //       queryKey: [resource, "getOne", { id: String(recordId) }],
+  //       queryFn: () =>
+  //         dataProvider
+  //           .getOne(resource || "", {
+  //             id: recordId,
+  //           })
+  //           .then(({ data }) => data),
+  //     };
+  //   }),
+  //   combine: results => {
+  //     return {
+  //       data: results.map(result => result.data),
+  //       pending: results.some(result => result.isPending),
+  //     }
+  //   }
+  // });
+  // const pathContext = resourceWithRecordList.map(info => info.resource.name)
+  //   .reduce((acc, name, index) => {
+  //     const { data, pending } = combinedQueries;
+  //     if (pending) {
+  //       return acc
+  //     }
+  //     return { ...acc, [String(name)]: data[index] }
+  //   }, {} as Record<string, any>);
 
   if (pathname === "/") {
     return {
@@ -46,9 +61,10 @@ export const useResourceAppLocation = (): AppLocation | null => {
     return null;
   }
 
-  const exactLocationInfo = resourceLocationInfo.find((locationInfo) => locationInfo.isExactMatch);
+  const pathContext = {}
+  const locationInfo = resourceLocationInfo.find(info => info.isExactMatch);
   return {
-    path: exactLocationInfo?.pathKey || "",
+    path: locationInfo?.pathKey || "",
     values: { ...pathContext },
   };
 };

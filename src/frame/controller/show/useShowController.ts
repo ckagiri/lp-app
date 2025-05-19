@@ -49,7 +49,7 @@ export const useShowController = <
         refetch,
     } = useGetOne<RecordType, ErrorType>(
         resourcePath,
-        { id, meta },
+        { id,  meta},
         {
             enabled: disableAuthentication,
             onError: () => {

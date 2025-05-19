@@ -25,7 +25,7 @@ export const useGetOne = <RecordType extends UiRecord = any, ErrorType = Error>(
         // Sometimes the id comes as a string (e.g. when read from the URL in a Show view).
         // Sometimes the id comes as a number (e.g. when read from a Record in useGetList response).
         // As the react-query cache is type-sensitive, we always stringify the identifier to get a match
-        queryKey: [resource, 'getOne', { id: String(id), meta }],
+        queryKey: [resource, 'getOne', { id: String(id), }],
         queryFn: queryParams =>
             id == null
                 ? Promise.reject('useGetOne: id cannot be null')

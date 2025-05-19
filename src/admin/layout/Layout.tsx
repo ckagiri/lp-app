@@ -1,6 +1,7 @@
 import { Container, CssBaseline } from "@mui/material";
 import { ReactNode } from "react";
 import { AppLocationContext } from "../../frame/navigation";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const Layout = ({ children }: { children: ReactNode }) => (
   <AppLocationContext>
@@ -13,4 +14,9 @@ const Layout = ({ children }: { children: ReactNode }) => (
   </AppLocationContext>
 );
 
-export default Layout;
+export default ({ children }: { children: ReactNode }) => (
+  <>
+    <Layout>{children}</Layout>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </>
+);
