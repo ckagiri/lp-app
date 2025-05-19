@@ -1,6 +1,7 @@
 import React from 'react';
-import { ListBase, useCreatePath, useListContext } from '../../frame';
+import { ListBase, RecordContext, useCreatePath, useListContext } from '../../frame';
 import { Link } from 'react-router-dom';
+import { ShowButton } from '../../ui-materialui';
 
 const RoundList = () => {
   return (
@@ -34,10 +35,13 @@ const RoundListView = () => {
   return (
     <ul>
       {data?.map(record => (
-        <li key={record.id}>
-          {record.name}&nbsp;
-          <MatchesLink roundPath={`${resource.path}/${record.slug}`} />
-        </li>
+        <RecordContext.Provider key={record.id} value={record}>
+          <li key={record.id}>
+            {record.name}&nbsp;
+            <ShowButton />
+            <MatchesLink roundPath={`${resource.path}/${record.slug}`} />
+          </li>
+        </RecordContext.Provider>
       ))}
     </ul>
   );

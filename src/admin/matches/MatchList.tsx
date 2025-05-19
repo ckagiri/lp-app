@@ -1,5 +1,6 @@
 import React from "react";
-import { ListBase, useListContext } from "../../frame";
+import { ListBase, RecordContextProvider, useListContext } from "../../frame";
+import { ShowButton } from "../../ui-materialui";
 
 const MatchList = () => {
   return (
@@ -18,10 +19,13 @@ const MatchListView = () => {
 
   return (
     <ul>
-      {data?.map(({ id, homeTeam, awayTeam }) => (
-        <li key={id}>
-          {homeTeam.name} vs {awayTeam.name}
-        </li>
+      {data?.map(record => (
+        <RecordContextProvider key={record.id} value={record}>
+          <li key={record.id}>
+            {record.homeTeam.name} vs {record.awayTeam.name}
+            <ShowButton />
+          </li>
+        </RecordContextProvider>
       ))}
     </ul>
   );

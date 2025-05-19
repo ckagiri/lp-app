@@ -3,13 +3,13 @@ import { ShowBase, useShowContext } from '../../frame';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import { ListButton } from '../../ui-materialui';
 
-const CompetitionShow = () => (
+const SeasonShow = () => (
   <ShowBase>
-    <CompetitionShowView />
+    <SeasonShowView />
   </ShowBase>
 );
 
-const CompetitionShowView = () => {
+const SeasonShowView = () => {
   const { record: data, isLoading } = useShowContext();
 
   if (isLoading) {
@@ -28,10 +28,10 @@ const CompetitionShowView = () => {
           </div>
           <div>
             <Typography variant="caption">
-              TLA
+              Current Matchday
             </Typography>
             <Typography variant="body2">
-              {data.code}
+              {data.currentMatchday}
             </Typography>
           </div>
         </Stack>
@@ -41,4 +41,4 @@ const CompetitionShowView = () => {
   );
 };
 
-export default CompetitionShow;
+export default SeasonShow;
