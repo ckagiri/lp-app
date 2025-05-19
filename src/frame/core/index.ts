@@ -4,3 +4,4 @@ export * from './types';
 export * from './Resource';
 export * from './OptionalResourceContextProvider';
 export * from './useResourceContext';
+export * from './useResourceDefinitions';

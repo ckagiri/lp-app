@@ -2,6 +2,7 @@ import { CoreFrameContext, CoreFrameContextProps, CoreFrameUI, CoreFrameUIProps 
 
 export const AppFrame = (props: CoreFrameProps) => {
   const {
+    adminLayout,
     children,
     dataProvider,
     queryClient,
@@ -12,7 +13,9 @@ export const AppFrame = (props: CoreFrameProps) => {
       dataProvider={dataProvider}
       queryClient={queryClient}
     >
-      <CoreFrameUI>
+      <CoreFrameUI
+        adminLayout={adminLayout}
+      >
         {children}
       </CoreFrameUI>
     </CoreFrameContext>
