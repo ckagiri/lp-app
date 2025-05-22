@@ -40,7 +40,7 @@ const SeasonsLink = ({ competitionPath }: SeasonsLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link
-      to={createPath({ type: "list", resource: "seasons", parent: competitionPath })}
+      to={createPath({ type: "list", resource: `${competitionPath}/seasons` })}
     >
       Seasons
     </Link>

@@ -1,26 +1,20 @@
 import { ReactElement } from "react";
 import { ResourceBreadcrumbItem } from "./ResourceBreadcrumbItem";
-import { useResourceDefinitions } from "../../../frame";
+import { ResourceItem, useResourceDefinitions } from "../../../frame";
 
 export type ResourceBreadcrumbItemsProps = { resources?: string[] };
 
-export const ResourceBreadcrumbItems = ({
-    resources: selectedResources,
-}: ResourceBreadcrumbItemsProps): ReactElement => {
+export const ResourceBreadcrumbItems =
+  ({}: ResourceBreadcrumbItemsProps): ReactElement => {
     const resourceDefinitions = useResourceDefinitions();
 
-    const resources = Object.values(resourceDefinitions)
-        .filter(
-            resource =>
-                !selectedResources || selectedResources.includes(resource.name)
-        )
-        .map(resource => resource.name);
-
+    const resources: ResourceItem[] = Object.values(resourceDefinitions)
+      .map(({ name, route}) => ({ name, route }))
     return (
-        <>
-            {resources.map(name => (
-                <ResourceBreadcrumbItem key={name} resource={name} />
-            ))}
-        </>
+      <>
+        {resources.map((resource) => (
+          <ResourceBreadcrumbItem key={resource.name} resource={resource} />
+        ))}
+      </>
     );
-};
+  };

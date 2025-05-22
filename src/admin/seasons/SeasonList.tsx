@@ -47,7 +47,7 @@ const RoundsLink = ({ seasonPath }: RoundsLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link
-      to={createPath({ type: 'list', resource: 'rounds', parent: seasonPath })}
+      to={createPath({ type: 'list', resource: `${seasonPath}/rounds` })}
     >
       Rounds
     </Link>
@@ -58,7 +58,7 @@ const TeamsLink = ({ seasonPath }: TeamsLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link
-      to={createPath({ type: 'list', resource: 'teams', parent: seasonPath })}
+      to={createPath({ type: 'list', resource: `${seasonPath}/teams}` })}
     >
       Teams
     </Link>

@@ -1,89 +1,76 @@
-import { UiRecord, useBasename, useCreatePath } from "../../../frame";
+import { generatePath, useParams } from "react-router";
+import {
+  ResourceItem,
+  useBasename,
+  useCreatePath,
+  useResourceDefinition,
+} from "../../../frame";
 import { BreadcrumbPath } from "../../../ui-materialui";
 
 export type BreadcrumbPathMap = Record<string, BreadcrumbPath>;
 
 export const useResourceBreadcrumbPaths = (
-    resource: string
+  resource: ResourceItem
 ): BreadcrumbPathMap => {
-    const resourceDefinition = useResourceDefinition({
-        resource,
-    });
-    const createPath = useCreatePath();
-    const basename = useBasename();
-    const getRecordRepresentation = useGetRecordRepresentation(resource);
+  const resourceDefinition = useResourceDefinition({
+    resource,
+  });
+  const createPath = useCreatePath();
+  const basename = useBasename();
+  const params = useParams();
+  const resourceRoute = String(resource.route);
+  const pathKey = resourceRoute.replace(/\/:[^:/]+\//g, ".edit.");
+  const resourcePath = generatePath(resourceRoute, params);
 
-    const resourcePaths: BreadcrumbPathMap = {
-        [resource]: {
-            label: resourceLabelPlural,
-            to: `${basename}/${resource}`,
-        },
-        [`${resource}.create`]: {
-            label: !resourceDefinition.hasList
-                ? translate('ra.page.create', {
-                      name: resourceLabelSingular,
-                  })
-                : translate('ra.action.create'),
-            to: createPath({
-                resource: resource,
-                type: 'create',
-            }),
-        },
-        [`${resource}.edit`]: {
-            label: ({ record }: { record: UiRecord }) => {
-                const recordRepresentation = getRecordRepresentation(record);
-                if (typeof recordRepresentation !== 'string') {
-                    return `#${record.id}`;
-                }
+  const competitionPath = {
+    ["competition"]: {
+      label: "Competitons",
+      to: `${basename}/${resource}`,
+    },
+    [`${pathKey}.create`]: {
+      label: !resourceDefinition.hasList ? "Create Competition" : "Create",
+      to: createPath({
+        resource: resourcePath,
+        type: "create",
+      }),
+    },
+    [`${pathKey}.edit`]: {
+      label: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        return !competition ? "Edit" : competition.name;
+      },
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        return competition
+          ? createPath({
+              resource: resourcePath,
+              id: competition.slug,
+              type: "edit",
+            })
+          : "";
+      },
+    },
+    [`${pathKey}.show`]: {
+      label: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        return !competition ? "Show" : competition.name;
+      },
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        return competition
+          ? createPath({
+              resource: resourcePath,
+              id: competition.slug,
+              type: "show",
+            })
+          : "";
+      },
+    },
+  };
 
-                return !record
-                    ? translate('ra.action.edit')
-                    : !resourceDefinition.hasList
-                      ? translate('ra.page.edit', {
-                            name: resourceLabelSingular,
-                            id: record.id,
-                            record,
-                            recordRepresentation,
-                        })
-                      : recordRepresentation;
-            },
-            to: ({ record }: { record: UiRecord }) =>
-                record
-                    ? createPath({
-                          resource: resource,
-                          id: record.id,
-                          type: 'edit',
-                      })
-                    : '',
-        },
-        [`${resource}.show`]: {
-            label: ({ record }: { record: UiRecord }) => {
-                const recordRepresentation = getRecordRepresentation(record);
-                if (typeof recordRepresentation !== 'string') {
-                    return `#${record.id}`;
-                }
+  const resourcePaths: BreadcrumbPathMap = {
+    ...competitionPath,
+  };
 
-                return !record
-                    ? translate('ra.action.show')
-                    : !resourceDefinition.hasList
-                      ? translate('ra.page.show', {
-                            name: resourceLabelSingular,
-                            id: record.id,
-                            record,
-                            recordRepresentation,
-                        })
-                      : recordRepresentation;
-            },
-            to: ({ record }: { record: UiRecord }) =>
-                record
-                    ? createPath({
-                          resource,
-                          id: record.id,
-                          type: 'show',
-                      })
-                    : '',
-        },
-    };
-
-    return resourcePaths;
+  return resourcePaths;
 };

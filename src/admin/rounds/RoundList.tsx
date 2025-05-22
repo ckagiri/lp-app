@@ -18,7 +18,7 @@ const MatchesLink = ({ roundPath }: MatchesLinkProps) => {
   const createPath = useCreatePath();
   return (
     <Link
-      to={createPath({ type: 'list', resource: 'matches', parent: roundPath })}
+      to={createPath({ type: 'list', resource: `${roundPath}/matches` })}
     >
       Matches
     </Link>
