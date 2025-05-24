@@ -12,12 +12,13 @@ export const Resource = (props: ResourceProps) => {
             <Routes>
                 {list && (
                     <Route
-                        path="/*"
+                        path="/"
                         element={getElement(list)}
                     />
                 )}
                 {show && <Route path=":id/show/*" element={getElement(show)} />}
                 {edit && <Route path=":id/*" element={getElement(edit)} />}
+                <Route path="*" element={<div>Catch</div>} />
                 {props.children}
             </Routes>
         </ResourceContextProvider>

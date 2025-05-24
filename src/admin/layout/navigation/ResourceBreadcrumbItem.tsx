@@ -12,19 +12,19 @@ export const ResourceBreadcrumbItem = ({
   resource,
 }: ResourceBreadcrumbItemProps): ReactElement => {
   const resourcesPaths = useResourceBreadcrumbPaths(resource);
-  const resourceRoute = String(resource.route);
+  const resourceRoute = resource.route ?? "";
   const resourcePathKey = resourceRoute.replace(/\/:[^:/]+\//g, ".edit.");
   const listPath = resourcesPaths[resourcePathKey];
-  const childPaths =
-    Object.keys(resourcesPaths)
-      .filter((pathKey) => pathKey !== resourcePathKey)
-      .reduce(
-        (acc, pathKey) => ({
-          ...acc,
-          [pathKey.substring(resourcePathKey.length + 1)]: resourcesPaths[pathKey],
-        }),
-        {}
-      ) as Record<string, BreadcrumbPath>
+  const childPaths = Object.keys(resourcesPaths)
+    .filter((pathKey) => pathKey !== resourcePathKey)
+    .reduce(
+      (acc, pathKey) => ({
+        ...acc,
+        [pathKey.substring(resourcePathKey.length + 1)]:
+          resourcesPaths[pathKey],
+      }),
+      {}
+    ) as Record<string, BreadcrumbPath>;
 
   return (
     <BreadcrumbItem name={resourcePathKey} {...listPath}>
