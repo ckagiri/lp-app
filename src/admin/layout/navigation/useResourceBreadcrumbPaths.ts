@@ -76,10 +76,15 @@ export const useResourceBreadcrumbPaths = (
     },
     [`${seasonsKey}.create`]: {
       label: "Create",
-      to: createPath({
-        resource: "seasons",
-        type: "create",
-      }),
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        return competition
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons`,
+              type: "create",
+            })
+          : "";
+      }
     },
     [`${seasonsKey}.edit`]: {
       label: (pathContext: any) => {
@@ -117,9 +122,73 @@ export const useResourceBreadcrumbPaths = (
     },
   };
 
+  const roundsKey = "competitions.edit.seasons.edit.rounds";
+  const roundsPath = {
+    [roundsKey]: {
+      label: "Rounds",
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        return competition && season
+          ? `${basename}/competitions/${competition.slug}/seasons/${season.slug}/rounds`
+          : "";
+      },
+    },
+    [`${roundsKey}.create`]: {
+      label: "Create",
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        return competition && season
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds`,
+              type: "create",
+            })
+          : "";
+      },
+    },
+    [`${roundsKey}.edit`]: {
+      label: (pathContext: any) => {
+        const round = pathContext["rounds"];
+        return !round ? "Edit" : round.name;
+      },
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        const round = pathContext["rounds"];
+        return competition && season && round
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds`,
+              id: round.slug,
+              type: "edit",
+            })
+          : "";
+      },
+    },
+    [`${roundsKey}.show`]: {
+      label: (pathContext: any) => {
+        const round = pathContext["rounds"];
+        return !round ? "Show" : round.name;
+      },
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        const round = pathContext["rounds"];
+        return competition
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds`,
+              id: round.slug,
+              type: "show",
+            })
+          : "";
+      },
+    },
+  };
+
   const resourcePaths: ResourceBreadcrumbPathMap = {
     competitions: competitionsPath,
     seasons: seasonsPath,
+    rounds: roundsPath,
   };
 
   return resourcePaths[resourceName] ?? {};

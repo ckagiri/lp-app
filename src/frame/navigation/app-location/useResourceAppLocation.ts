@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { useGetOne } from "../../dataProvider";
 import { useBasename } from "../../routing";
 import { useResourceDefinitions } from "../../core";
 import { AppLocation } from "./AppLocationContext";
@@ -11,11 +10,11 @@ export const useResourceAppLocation = (): AppLocation | null => {
   const { pathname } = useLocation();
   const basename = useBasename();
   const relativePath = pathname.replace(basename, "");
-  const resources = useResourceDefinitions();
+  const resourceDefinitions = useResourceDefinitions();
 
   const resourceLocationInfo = resolveResourceLocationInfo(
     relativePath,
-    Object.values(resources)
+    Object.values(resourceDefinitions)
   );
 
   const dataProvider = useDataProvider();
@@ -23,12 +22,12 @@ export const useResourceAppLocation = (): AppLocation | null => {
   const combinedQueries = useQueries({
     queries: resourceWithRecordList.map((locationInfo) => {
       const { resource: resourceItem, recordId } = locationInfo;
-      const { path: resource } = resourceItem;
+      const resource = String(resourceItem.path);
       return {
         queryKey: [resource, "getOne", { id: String(recordId) }],
         queryFn: () =>
           dataProvider
-            .getOne(resource || "", {
+            .getOne(resource, {
               id: recordId,
             })
             .then(({ data }) => data),
@@ -41,13 +40,13 @@ export const useResourceAppLocation = (): AppLocation | null => {
       }
     }
   });
-  const pathContext = resourceWithRecordList.map(info => info.resource.name)
+  const pathContext = resourceWithRecordList.map(info => String(info.resource.name))
     .reduce((acc, name, index) => {
       const { data, pending } = combinedQueries;
       if (pending) {
         return acc
       }
-      return { ...acc, [String(name)]: data[index] }
+      return { ...acc, [name]: data[index] }
     }, {} as Record<string, any>);
 
   if (pathname === "/") {
@@ -63,7 +62,7 @@ export const useResourceAppLocation = (): AppLocation | null => {
 
   const locationInfo = resourceLocationInfo.find(info => info.isExactMatch);
   return {
-    path: locationInfo?.pathKey || "",
+    path: locationInfo?.pathKey ?? "",
     values: { ...pathContext },
   };
 };

@@ -19,13 +19,13 @@ export const resolveResourceLocationInfo = (
     })
     .filter((location) => location !== null)
     .map((location) => {
-      const { resource: resourceDefinition, params: pathParams } = location as {
+      const { resource: resourceDefinition, params: urlParams } = location as {
         resource: ResourceDefinition;
         params: Record<string, string>;
       };
       const { route: resourceRoute, name } = resourceDefinition;
 
-      const resourcePath = generatePath(resourceRoute, pathParams);
+      const resourcePath = generatePath(resourceRoute, urlParams);
       const pathKey = resourceRoute.replace(/\/:[^:/]+\//g, ".edit.");
 
       const createMatch = pathname.match(`/${resourcePath}/create(/([^/]*))?`);
