@@ -5,6 +5,7 @@ import {
   useCreatePath,
 } from "../../../frame";
 import { BreadcrumbPath } from "../../../ui-materialui";
+import { matches } from "lodash";
 
 export type BreadcrumbPathMap = Record<string, BreadcrumbPath>;
 export type ResourceBreadcrumbPathMap = Record<string, BreadcrumbPathMap>;
@@ -111,7 +112,7 @@ export const useResourceBreadcrumbPaths = (
       to: (pathContext: any) => {
         const competition = pathContext["competitions"];
         const season = pathContext["seasons"];
-        return competition
+        return competition && season
           ? createPath({
               resource: `competitons/${competition.slug}/seasons`,
               id: season.slug,
@@ -174,10 +175,77 @@ export const useResourceBreadcrumbPaths = (
         const competition = pathContext["competitions"];
         const season = pathContext["seasons"];
         const round = pathContext["rounds"];
-        return competition
+        return competition && season && round
           ? createPath({
               resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds`,
               id: round.slug,
+              type: "show",
+            })
+          : "";
+      },
+    },
+  };
+
+  const matchesKey = "competitions.edit.seasons.edit.rounds.edit.matches";
+  const matchesPath = {
+    [matchesKey]: {
+      label: "Matches",
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        const round = pathContext["rounds"];
+        return competition && season && round
+          ? `${basename}/competitions/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`
+          : "";
+      },
+    },
+    [`${matchesKey}.create`]: {
+      label: "Create",
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        const round = pathContext["rounds"];
+        return competition && season && round
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`,
+              type: "create",
+            })
+          : "";
+      },
+    },
+    [`${matchesKey}.edit`]: {
+      label: (pathContext: any) => {
+        const round = pathContext["rounds"];
+        return !round ? "Edit" : round.name;
+      },
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        const round = pathContext["rounds"];
+        const match = pathContext["matches"];
+        return competition && season && round && match
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`,
+              id: match.slug,
+              type: "edit",
+            })
+          : "";
+      },
+    },
+    [`${matchesKey}.show`]: {
+      label: (pathContext: any) => {
+        const round = pathContext["rounds"];
+        return !round ? "Show" : round.name;
+      },
+      to: (pathContext: any) => {
+        const competition = pathContext["competitions"];
+        const season = pathContext["seasons"];
+        const round = pathContext["rounds"];
+        const match = pathContext["matches"];
+        return competition && season && round && match
+          ? createPath({
+              resource: `competitons/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`,
+              id: match.slug,
               type: "show",
             })
           : "";
@@ -189,6 +257,7 @@ export const useResourceBreadcrumbPaths = (
     competitions: competitionsPath,
     seasons: seasonsPath,
     rounds: roundsPath,
+    matches: matchesPath,
   };
 
   return resourcePaths[resourceName] ?? {};
