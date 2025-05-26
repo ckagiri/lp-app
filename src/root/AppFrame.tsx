@@ -1,11 +1,14 @@
+import { CssBaseline } from "@mui/material";
 import {
   CoreFrameContext,
   CoreFrameContextProps,
   CoreFrameUI,
   CoreFrameUIProps,
+  localStorageStore,
 } from "../frame";
 
 import { QueryClient } from "@tanstack/react-query";
+import { defaultDarkTheme, defaultLightTheme, ThemeProvider, ThemesContext, UiThemeOptions } from "../ui-materialui";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,13 +41,49 @@ const queryClient = new QueryClient({
 });
 
 export const AppFrame = (props: CoreFrameProps) => {
-  const { adminLayout, children, dataProvider } = props;
+  const {
+    adminLayout,
+    children,
+    dataProvider,
+    theme,
+    lightTheme = defaultLightTheme,
+    darkTheme,
+    defaultTheme,
+  } = props;
 
   return (
-    <CoreFrameContext dataProvider={dataProvider} queryClient={queryClient}>
-      <CoreFrameUI adminLayout={adminLayout}>{children}</CoreFrameUI>
+    <CoreFrameContext
+       dataProvider={dataProvider}
+       queryClient={queryClient}
+       store={localStorageStore({ appKey: "ligi" })}
+       >
+      <ThemesContext.Provider
+        value={{
+          lightTheme: theme || lightTheme,
+          darkTheme:
+            theme && !darkTheme
+              ? undefined
+              : !darkTheme && darkTheme !== null
+              ? defaultDarkTheme
+              : darkTheme ?? undefined,
+          defaultTheme,
+        }}
+      >
+        <ThemeProvider>
+          <CssBaseline enableColorScheme>
+            <CoreFrameUI adminLayout={adminLayout}>{children}</CoreFrameUI>
+          </CssBaseline>
+        </ThemeProvider>
+      </ThemesContext.Provider>
     </CoreFrameContext>
   );
 };
 
-export type CoreFrameProps = CoreFrameContextProps & CoreFrameUIProps;
+export interface AppFrameContextProps extends CoreFrameContextProps {
+  theme?: UiThemeOptions;
+  lightTheme?: UiThemeOptions;
+  darkTheme?: UiThemeOptions | null;
+  defaultTheme?: "dark" | "light";
+}
+
+export type CoreFrameProps = AppFrameContextProps & CoreFrameUIProps;

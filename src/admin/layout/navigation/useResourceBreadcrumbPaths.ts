@@ -215,8 +215,8 @@ export const useResourceBreadcrumbPaths = (
     },
     [`${matchesKey}.edit`]: {
       label: (pathContext: any) => {
-        const round = pathContext["rounds"];
-        return !round ? "Edit" : round.name;
+        const match = pathContext["matches"];
+        return !match ? "Edit" : match.slug;
       },
       to: (pathContext: any) => {
         const competition = pathContext["competitions"];
@@ -234,8 +234,8 @@ export const useResourceBreadcrumbPaths = (
     },
     [`${matchesKey}.show`]: {
       label: (pathContext: any) => {
-        const round = pathContext["rounds"];
-        return !round ? "Show" : round.name;
+        const match = pathContext["matches"];
+        return !match ? "Show" : match.slug;
       },
       to: (pathContext: any) => {
         const competition = pathContext["competitions"];

@@ -49,39 +49,37 @@ const BreadcrumbClasses = {
     list: `${PREFIX}-list`,
 };
 
-const Root = styled<'nav'>('nav', {
-    name: 'UiBreadcrumb',
-    overridesResolver: (props, styles) => styles.root,
-})({})
-//
-// (({ theme, ...props }) => ({
-//     [`& .${BreadcrumbClasses.list}`]: {
-//         listStyle: 'none',
-//         padding: `${theme.spacing(0.5)} 0 ${theme.spacing(0.5)} 0`,
-//         margin: `${theme.spacing(0.5)} 0 ${theme.spacing(0.5)} 0`,
-//         display: 'flex',
-//         gap: theme.spacing(0.5),
-//         alignItems: 'center',
-//         '&:empty': {
-//             margin: 0,
-//         },
-//         '& li': {
-//             display: 'flex',
-//             gap: theme.spacing(1),
-//             alignItems: 'center',
-//             color: theme.palette.text.secondary,
-//             '&+li::before': {
-//                 content: separatorResolver(props as any),
-//             },
-//             '&+li:last-child': {
-//                 color: theme.palette.text.primary,
-//             },
-//             '& a': {
-//                 textDecoration: 'none',
-//                 '&:hover': {
-//                     textDecoration: 'underline',
-//                 },
-//             },
-//         },
-//     },
-// }));
+const Root = styled<"nav">("nav", {
+  name: "UiBreadcrumb",
+  overridesResolver: (props, styles) => styles.root,
+})(({ theme, ...props }) => ({
+  [`& .${BreadcrumbClasses.list}`]: {
+    listStyle: "none",
+    padding: `${theme.spacing(0.5)} 0 ${theme.spacing(0.5)} 0`,
+    margin: `${theme.spacing(0.5)} 0 ${theme.spacing(0.5)} 0`,
+    display: "flex",
+    gap: theme.spacing(0.5),
+    alignItems: "center",
+    "&:empty": {
+      margin: 0,
+    },
+    "& li": {
+      display: "flex",
+      gap: theme.spacing(1),
+      alignItems: "center",
+      color: theme.palette.text.secondary,
+      "&+li::before": {
+        content: '" / "',
+      },
+      "&+li:last-child": {
+        color: theme.palette.text.primary,
+      },
+      "& a": {
+        textDecoration: "none",
+        "&:hover": {
+          textDecoration: "underline",
+        },
+      },
+    },
+  },
+}));

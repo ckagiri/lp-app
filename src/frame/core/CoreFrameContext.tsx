@@ -1,15 +1,17 @@
 import { useMemo } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
-import { FrameRouter } from '../routing/FrameRouter';
+import { FrameRouter } from '../routing';
 import { DataProvider, DataProviderFn, FrameChildren } from '../types';
 import { ResourceDefinitionContextProvider } from './ResourceDefinitionContext';
 import { DataProviderContext, dataProviderTransform, defaultDataProvider } from '../dataProvider';
+import { Store } from '../store';
 
 export interface CoreFrameContextProps {
   children: FrameChildren,
   dataProvider?: DataProvider | DataProviderFn,
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
+  store?: Store
 };
 
 export const CoreFrameContext = (props: CoreFrameContextProps) => {
