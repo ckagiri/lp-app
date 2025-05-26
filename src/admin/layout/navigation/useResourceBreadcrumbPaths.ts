@@ -80,7 +80,7 @@ export const useResourceBreadcrumbPaths = (
     [`${seasonsKey}.edit`]: {
       label: (pathContext: any) => {
         const season = pathContext["seasons"];
-        return !season ? "Edit" : season.name;
+        return !season ? "Show" : season.name;
       },
       to: (pathContext: any) => {
         const competition = pathContext["competitions"];
@@ -130,7 +130,7 @@ export const useResourceBreadcrumbPaths = (
     [`${roundsKey}.edit`]: {
       label: (pathContext: any) => {
         const round = pathContext["rounds"];
-        return !round ? "Edit" : round.name;
+        return !round ? "Show" : round.name;
       },
       to: (pathContext: any) => {
         const competition = pathContext["competitions"];
@@ -183,7 +183,7 @@ export const useResourceBreadcrumbPaths = (
     [`${matchesKey}.edit`]: {
       label: (pathContext: any) => {
         const match = pathContext["matches"];
-        return !match ? "Edit" : match.slug;
+        return !match ? "Show" : match.slug;
       },
       to: (pathContext: any) => {
         const competition = pathContext["competitions"];
