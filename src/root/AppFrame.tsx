@@ -6,10 +6,12 @@ import {
   CoreFrameUIProps,
   localStorageStore,
 } from "../frame";
+import simpleRestProvider from "../data-simple-rest";
 
 import { QueryClient } from "@tanstack/react-query";
 import { defaultDarkTheme, defaultLightTheme, ThemeProvider, ThemesContext, UiThemeOptions } from "../ui-materialui";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3110/api" //"https://nialine.com/api";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -40,11 +42,12 @@ const queryClient = new QueryClient({
   },
 });
 
+const dataProvider = simpleRestProvider(API_URL);
+
 export const AppFrame = (props: CoreFrameProps) => {
   const {
     adminLayout,
     children,
-    dataProvider,
     theme,
     lightTheme = defaultLightTheme,
     darkTheme,

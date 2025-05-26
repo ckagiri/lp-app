@@ -1,7 +1,6 @@
 import { Card, Stack, Typography } from '@mui/material';
 import { ShowBase, useShowContext } from '../../frame';
-import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import { ListButton } from '../../ui-materialui';
+import { BackButton, ListButton } from '../../ui-materialui';
 
 const CompetitionShow = () => (
   <ShowBase>
@@ -36,7 +35,7 @@ const CompetitionShowView = () => {
           </div>
         </Stack>
       </Card>
-      <ListButton label="Back" icon={<ChevronLeft />} />
+      <BackButton />
     </div>
   );
 };

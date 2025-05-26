@@ -1,7 +1,6 @@
 import { AppFrame } from "./AppFrame";
 import { Admin, AppRoutes, Resource } from "../frame";
 import { Navigate, Route } from "react-router-dom";
-import simpleRestProvider from "../data-simple-rest";
 import competitions from "../admin/competitions";
 import seasons from "../admin/seasons";
 import teams from "../admin/teams";
@@ -9,12 +8,9 @@ import rounds from "../admin/rounds";
 import matches from "../admin/matches";
 import AdminLayout from "../admin/layout/Layout";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3110/api" //"https://nialine.com/api";
-const dataProvider = simpleRestProvider(API_URL);
 
 const Ligi = () => (
   <AppFrame
-    dataProvider={dataProvider}
     adminLayout={AdminLayout}
   >
     <AppRoutes>

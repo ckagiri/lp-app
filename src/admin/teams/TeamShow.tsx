@@ -1,7 +1,6 @@
 import { Card, Stack, Typography } from '@mui/material';
 import { ShowBase, useShowContext } from '../../frame';
-import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import { ListButton } from '../../ui-materialui';
+import { BackButton } from '../../ui-materialui';
 
 const TeamShow = () => (
   <ShowBase>
@@ -36,7 +35,7 @@ const TeamShowView = () => {
           </div>
         </Stack>
       </Card>
-      <ListButton label="Back" icon={<ChevronLeft />} />
+      <BackButton />
     </div>
   );
 };
