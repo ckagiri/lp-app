@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef } from "react";
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 /**
  * Alternative to useCallback that doesn't update the callback when dependencies change

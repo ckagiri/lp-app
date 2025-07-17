@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import isEqual from "lodash/isEqual";
+import { useEffect, useState } from 'react';
+import isEqual from 'lodash/isEqual';
 
-import { useStoreContext } from "./useStoreContext";
-import { useEvent } from "../util";
+import { useStoreContext } from './useStoreContext';
+import { useEvent } from '../util';
 
 export const useStore = <T = any>(
   key: string,
@@ -17,8 +17,8 @@ export const useStore = <T = any>(
     if (!isEqual(value, storedValue)) {
       setValue(storedValue);
     }
-    const unsubscribe = subscribe(key, (newValue) => {
-      setValue(typeof newValue === "undefined" ? defaultValue : newValue);
+    const unsubscribe = subscribe(key, newValue => {
+      setValue(typeof newValue === 'undefined' ? defaultValue : newValue);
     });
     return () => unsubscribe();
   }, [key, subscribe, defaultValue, getItem, value]);
@@ -26,7 +26,7 @@ export const useStore = <T = any>(
   const set = useEvent(
     (valueParam: T | ((value: T) => void), runtimeDefaultValue?: T) => {
       let newValue: T | undefined;
-      if (typeof valueParam === "function") {
+      if (typeof valueParam === 'function') {
         // If valueParam is a function, call it with the current value
         // TypeScript doesn't know if valueParam is (value: T) => void or T, so we need to cast
         newValue = (valueParam as (value: T) => T)(value);
@@ -35,8 +35,8 @@ export const useStore = <T = any>(
       }
       setItem(
         key,
-        typeof newValue === "undefined"
-          ? typeof runtimeDefaultValue === "undefined"
+        typeof newValue === 'undefined'
+          ? typeof runtimeDefaultValue === 'undefined'
             ? defaultValue
             : runtimeDefaultValue
           : newValue
@@ -48,5 +48,5 @@ export const useStore = <T = any>(
 
 export type useStoreResult<T = any> = [
   T,
-  (value: T | ((value: T) => void), defaultValue?: T) => void
+  (value: T | ((value: T) => void), defaultValue?: T) => void,
 ];

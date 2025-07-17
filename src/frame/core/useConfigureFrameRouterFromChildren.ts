@@ -1,13 +1,15 @@
-import * as React from "react";
-import { Children, ReactElement, ReactNode, useEffect, useState } from "react";
-import { FrameChildren, ResourceDefinition, ResourceProps } from "../types";
-import { FrameRoutesProps } from "./types";
-import { useResourceDefinitionContext } from "./useResourceDefinitionContext";
+import * as React from 'react';
+import { Children, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { FrameChildren, ResourceDefinition, ResourceProps } from '../types';
+import { FrameRoutesProps } from './types';
+import { useResourceDefinitionContext } from './useResourceDefinitionContext';
 
 export const useConfigureFrameRouterFromChildren = (
-  children: FrameChildren,
+  children: FrameChildren
 ): RoutesAndResources => {
-  const [routesAndResources, ] = useState(getRoutesAndResourceFromNodes(children));
+  const [routesAndResources] = useState(
+    getRoutesAndResourceFromNodes(children)
+  );
 
   useRegisterResources(routesAndResources.resources);
 
@@ -16,7 +18,7 @@ export const useConfigureFrameRouterFromChildren = (
     appRoutes: routesAndResources.appRoutes,
     adminCustomRoutes: routesAndResources.adminCustomRoutes,
     resources: routesAndResources.resources,
-  }
+  };
 };
 
 const getRoutesAndResourceFromNodes = (
@@ -25,9 +27,10 @@ const getRoutesAndResourceFromNodes = (
   const shellRoutes: ReactNode[] = [];
   const appRoutes: ReactNode[] = [];
   const adminCustomRoutes: ReactNode[] = [];
-  const resources: (ReactElement<ResourceProps> & ResourceWithRegisterFunction)[] = [];
+  const resources: (ReactElement<ResourceProps> &
+    ResourceWithRegisterFunction)[] = [];
 
-  // @ts-ignore
+  // @ts-expect-error: Children may contain non-element nodes, which are intentionally ignored here
   Children.forEach(children, element => {
     if (!React.isValidElement(element)) {
       // Ignore non-elements. This allows for easy inline of
@@ -43,7 +46,9 @@ const getRoutesAndResourceFromNodes = (
       appRoutes.push(routesElement.props.children);
     } else if ((element.type as any).uiName === 'Admin') {
       const routesElement = element as ReactElement<FrameRoutesProps>;
-      const routesFromChildren = getRoutesAndResourceFromNodes(routesElement.props.children);
+      const routesFromChildren = getRoutesAndResourceFromNodes(
+        routesElement.props.children
+      );
 
       adminCustomRoutes.push(...routesFromChildren.adminCustomRoutes);
       resources.push(...routesFromChildren.resources);
@@ -66,18 +71,19 @@ const getRoutesAndResourceFromNodes = (
 };
 
 const useRegisterResources = (
-  resources: (ReactElement<ResourceProps> & ResourceWithRegisterFunction)[],
+  resources: (ReactElement<ResourceProps> & ResourceWithRegisterFunction)[]
 ) => {
   const { register, unregister } = useResourceDefinitionContext();
 
   useEffect(() => {
     resources.forEach(resource => {
       if (
-        typeof ((resource.type as unknown) as ResourceWithRegisterFunction
-        ).registerResource === 'function'
+        typeof (resource.type as unknown as ResourceWithRegisterFunction)
+          .registerResource === 'function'
       ) {
-        const definition = ((resource.type as unknown) as ResourceWithRegisterFunction)
-          .registerResource(resource.props);
+        const definition = (
+          resource.type as unknown as ResourceWithRegisterFunction
+        ).registerResource(resource.props);
         register(definition);
       } else {
         throw new Error(
@@ -88,7 +94,7 @@ const useRegisterResources = (
     return () => {
       resources.forEach(resource => {
         if (
-          typeof ((resource.type as unknown) as ResourceWithRegisterFunction)
+          typeof (resource.type as unknown as ResourceWithRegisterFunction)
             .registerResource === 'function'
         ) {
           const definition = (
@@ -96,11 +102,11 @@ const useRegisterResources = (
           ).registerResource(resource.props);
           unregister(definition);
         } else {
-            throw new Error(
-              'For a Resource element a registerResource method accepting its props and returning a ResourceDefinition is expected'
-            );
-          }
-        });
+          throw new Error(
+            'For a Resource element a registerResource method accepting its props and returning a ResourceDefinition is expected'
+          );
+        }
+      });
     };
   }, [register, resources, unregister]);
 };
@@ -113,7 +119,5 @@ type RoutesAndResources = {
 };
 
 type ResourceWithRegisterFunction = {
-  registerResource: (
-    props: ResourceProps,
-  ) => ResourceDefinition;
+  registerResource: (props: ResourceProps) => ResourceDefinition;
 };

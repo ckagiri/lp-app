@@ -1,4 +1,10 @@
-import { CreateResult, DataProvider, DeleteResult, GetOneResult, UpdateResult } from "../types";
+import {
+  CreateResult,
+  DataProvider,
+  DeleteResult,
+  GetOneResult,
+  UpdateResult,
+} from '../types';
 
 export const defaultDataProvider: DataProvider = {
   create: () => Promise.resolve<CreateResult>({ data: null }),

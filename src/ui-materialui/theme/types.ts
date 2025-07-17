@@ -1,10 +1,10 @@
-import { ThemeOptions as MuiThemeOptions } from "@mui/material";
+import { ThemeOptions as MuiThemeOptions } from '@mui/material';
 
 export type ComponentsTheme = {
   [key: string]: any;
 };
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface Theme {
     sidebar: {
       width: number;
@@ -21,7 +21,7 @@ declare module "@mui/material/styles" {
 }
 
 export interface UiThemeOptions extends MuiThemeOptions {
-  palette?: MuiThemeOptions["palette"] & {
+  palette?: MuiThemeOptions['palette'] & {
     bulkActionsToolbarBackgroundColor?: string;
   };
   sidebar?: {
@@ -31,4 +31,4 @@ export interface UiThemeOptions extends MuiThemeOptions {
   components?: ComponentsTheme;
 }
 
-export type ThemeType = "light" | "dark";
+export type ThemeType = 'light' | 'dark';

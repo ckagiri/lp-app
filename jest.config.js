@@ -14,7 +14,7 @@ export default {
     ],
   },
   moduleNameMapper: {
-    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-    "^.+\\.svg$": "jest-transformer-svg",
+    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
+    '^.+\\.svg$': 'jest-transformer-svg',
   },
 };

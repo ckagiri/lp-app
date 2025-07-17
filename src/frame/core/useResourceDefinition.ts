@@ -1,11 +1,11 @@
-import { useMemo } from "react";
-import { ResourceDefinition, ResourceItem, ResourceOptions } from "../types";
-import { useResourceContext } from "./useResourceContext";
-import { useResourceDefinitions } from "./useResourceDefinitions";
-import defaults from "lodash/defaults";
+import { useMemo } from 'react';
+import { ResourceDefinition, ResourceItem, ResourceOptions } from '../types';
+import { useResourceContext } from './useResourceContext';
+import { useResourceDefinitions } from './useResourceDefinitions';
+import defaults from 'lodash/defaults';
 
 export const useResourceDefinition = <
-  OptionsType extends ResourceOptions = any
+  OptionsType extends ResourceOptions = any,
 >(
   props?: UseResourceDefinitionOptions
 ): ResourceDefinition<OptionsType> => {

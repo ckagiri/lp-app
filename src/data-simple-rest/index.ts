@@ -1,4 +1,4 @@
-import { stringify } from "query-string";
+import { stringify } from 'query-string';
 import {
   CreateParams,
   CreateResult,
@@ -19,7 +19,7 @@ import {
   UpdateManyResult,
   UpdateParams,
   UpdateResult,
-} from "../frame";
+} from '../frame';
 
 export default (
   apiUrl: string,
@@ -51,7 +51,7 @@ export default (
     const options = { signal: params?.signal };
 
     return httpClient(url, options).then(({ headers, json }) => {
-      const total = headers.get("x-total-count");
+      const total = headers.get('x-total-count');
       return {
         data: json,
         total: total ? parseInt(total, 10) : json.length,
@@ -68,39 +68,39 @@ export default (
     resource: string,
     params: GetManyParams<RecordType> & QueryFunctionContext
   ): Promise<GetManyResult<RecordType>> {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   },
   update: function <RecordType extends UiRecord = any>(
     resource: string,
     params: UpdateParams
   ): Promise<UpdateResult<RecordType>> {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   },
   updateMany: function <RecordType extends UiRecord = any>(
     resource: string,
     params: UpdateManyParams
   ): Promise<UpdateManyResult<RecordType>> {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   },
   create: function <
-    RecordType extends Omit<UiRecord, "id"> = any,
-    ResultRecordType extends UiRecord = RecordType & { id: Identifier }
+    RecordType extends Omit<UiRecord, 'id'> = any,
+    ResultRecordType extends UiRecord = RecordType & { id: Identifier },
   >(
     resource: string,
     params: CreateParams
   ): Promise<CreateResult<ResultRecordType>> {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   },
   delete: function <RecordType extends UiRecord = any>(
     resource: string,
     params: DeleteParams<RecordType>
   ): Promise<DeleteResult<RecordType>> {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   },
   deleteMany: function <RecordType extends UiRecord = any>(
     resource: string,
     params: DeleteManyParams<RecordType>
   ): Promise<DeleteManyResult<RecordType>> {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   },
 });

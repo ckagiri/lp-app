@@ -1,12 +1,12 @@
-import { generatePath, matchPath } from "react-router";
-import { Identifier, ResourceDefinition, ResourceItem } from "../../types";
+import { generatePath, matchPath } from 'react-router';
+import { Identifier, ResourceDefinition, ResourceItem } from '../../types';
 
 export const resolveResourceLocationInfo = (
   pathname: string,
   resources: ResourceDefinition[]
 ): ResourceLocationInfo[] => {
   const matchedLocations = resources
-    .map((resource) => {
+    .map(resource => {
       const match = matchPath({ path: resource.route, end: false }, pathname);
 
       if (match) {
@@ -17,8 +17,8 @@ export const resolveResourceLocationInfo = (
       }
       return null;
     })
-    .filter((location) => location !== null)
-    .map((location) => {
+    .filter(location => location !== null)
+    .map(location => {
       const { resource: resourceDefinition, params: urlParams } = location as {
         resource: ResourceDefinition;
         params: Record<string, string>;
@@ -26,7 +26,7 @@ export const resolveResourceLocationInfo = (
       const { route: resourceRoute, name } = resourceDefinition;
 
       const resourcePath = generatePath(resourceRoute, urlParams);
-      const pathKey = resourceRoute.replace(/\/:[^:/]+\//g, ".edit.");
+      const pathKey = resourceRoute.replace(/\/:[^:/]+\//g, '.edit.');
 
       const createMatch = pathname.match(`/${resourcePath}/create(/([^/]*))?`);
       if (createMatch) {
@@ -47,8 +47,10 @@ export const resolveResourceLocationInfo = (
       );
       if (showMatch) {
         const isExactMatch =
-          matchPath({ path: `${resourceRoute}/:id/show`, end: true }, pathname) !==
-          null;
+          matchPath(
+            { path: `${resourceRoute}/:id/show`, end: true },
+            pathname
+          ) !== null;
         return {
           resource: { name, path: resourcePath },
           pathKey: `${pathKey}.show`,
@@ -82,7 +84,7 @@ export const resolveResourceLocationInfo = (
       }
       return null;
     })
-    .filter((location) => location !== null);
+    .filter(location => location !== null);
   return matchedLocations;
 };
 

@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import { DataProvider } from "../types";
+import { createContext } from 'react';
+import { DataProvider } from '../types';
 
 const DataProviderContext = createContext<DataProvider | null>(null);
 

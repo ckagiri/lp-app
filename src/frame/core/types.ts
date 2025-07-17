@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export const ShellRoutes = (_props: FrameRoutesProps) => {
   return null;

@@ -2,7 +2,7 @@ class HttpError extends Error {
   constructor(
     public readonly message: string,
     public readonly status: any,
-    public readonly body: any = null,
+    public readonly body: any = null
   ) {
     super(message);
     Object.setPrototypeOf(this, HttpError.prototype);

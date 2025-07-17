@@ -5,26 +5,26 @@ import {
   IconButton,
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
-} from "@mui/material";
+} from '@mui/material';
 import {
   ComponentsOverrides,
   styled,
   useThemeProps,
-} from "@mui/material/styles";
-import { Path, To } from "react-router";
+} from '@mui/material/styles';
+import { Path, To } from 'react-router';
 
-export const Button = <RootComponent extends React.ElementType = "button">(
+export const Button = <RootComponent extends React.ElementType = 'button'>(
   inProps: ButtonProps<RootComponent>
 ) => {
   const props = useThemeProps({ props: inProps, name: PREFIX });
   const {
-    alignIcon = "left",
+    alignIcon = 'left',
     children,
     className,
     disabled,
     label,
-    color = "primary",
-    size = "small",
+    color = 'primary',
+    size = 'small',
     to: locationDescriptor,
     ...rest
   } = props;
@@ -69,8 +69,8 @@ export const Button = <RootComponent extends React.ElementType = "button">(
       size={size}
       aria-label={label}
       disabled={disabled}
-      startIcon={alignIcon === "left" && children ? children : undefined}
-      endIcon={alignIcon === "right" && children ? children : undefined}
+      startIcon={alignIcon === 'left' && children ? children : undefined}
+      endIcon={alignIcon === 'right' && children ? children : undefined}
       {...linkParams}
       {...rest}
     >
@@ -80,39 +80,38 @@ export const Button = <RootComponent extends React.ElementType = "button">(
 };
 
 interface Props<RootComponent extends React.ElementType> {
-  alignIcon?: "left" | "right";
+  alignIcon?: 'left' | 'right';
   children?: React.ReactNode;
   className?: string;
   component?: RootComponent;
   to?: LocationDescriptor | To;
   disabled?: boolean;
   label?: string;
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
   variant?: string;
 }
 
-export type ButtonProps<RootComponent extends React.ElementType = "button"> =
+export type ButtonProps<RootComponent extends React.ElementType = 'button'> =
   Props<RootComponent> & MuiButtonProps<RootComponent>;
 
-const PREFIX = "UiButton";
+const PREFIX = 'UiButton';
 
 const StyledButton = styled(MuiButton, {
   name: PREFIX,
   overridesResolver: (props, styles) => styles.root,
 })({
-  "&.MuiButton-sizeSmall": {
+  '&.MuiButton-sizeSmall': {
     // fix for icon misalignment on small buttons, see https://github.com/mui/material-ui/pull/30240
     lineHeight: 1.5,
   },
 });
 
 const getLinkParams = (locationDescriptor?: LocationDescriptor | string) => {
-  // eslint-disable-next-line eqeqeq
   if (locationDescriptor == undefined) {
     return undefined;
   }
 
-  if (typeof locationDescriptor === "string") {
+  if (typeof locationDescriptor === 'string') {
     return { to: locationDescriptor };
   }
 
@@ -131,9 +130,9 @@ export type LocationDescriptor = Partial<Path> & {
   replace?: boolean;
 };
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface ComponentNameToClassKey {
-    UiButton: "root";
+    UiButton: 'root';
   }
 
   interface ComponentsPropsList {
@@ -142,10 +141,10 @@ declare module "@mui/material/styles" {
 
   interface Components {
     UiButton?: {
-      defaultProps?: ComponentsPropsList["UiButton"];
+      defaultProps?: ComponentsPropsList['UiButton'];
       styleOverrides?: ComponentsOverrides<
-        Omit<Theme, "components">
-      >["UiButton"];
+        Omit<Theme, 'components'>
+      >['UiButton'];
     };
   }
 }

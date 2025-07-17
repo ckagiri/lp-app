@@ -3,28 +3,23 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult,
-} from "@tanstack/react-query";
-import { GetListParams, GetListResult, UiRecord } from "../types";
-import { useEffect, useMemo, useRef } from "react";
-import { useDataProvider } from "./useDataProvider";
-import { useEvent } from "../util";
+} from '@tanstack/react-query';
+import { GetListParams, GetListResult, UiRecord } from '../types';
+import { useEffect, useMemo, useRef } from 'react';
+import { useDataProvider } from './useDataProvider';
+import { useEvent } from '../util';
 
 const MAX_DATA_LENGTH_TO_CACHE = 100;
 
 export const useGetList = <
   RecordType extends UiRecord = any,
-  ErrorType = Error
+  ErrorType = Error,
 >(
   resource: string,
   params: Partial<GetListParams> = {},
   options: UseGetListOptions<RecordType, ErrorType> = {}
 ): UseGetListHookValue<RecordType> => {
-  const {
-    pagination = { page: 1, perPage: 25 },
-    sort,
-    filter,
-    meta,
-  } = params;
+  const { pagination = { page: 1, perPage: 25 }, sort, filter, meta } = params;
   const dataProvider = useDataProvider();
   const queryClient = useQueryClient();
   const {
@@ -42,8 +37,8 @@ export const useGetList = <
     ErrorType,
     GetListResult<RecordType>
   >({
-    queryKey: [resource, "getList", { pagination, sort, filter, meta }],
-    queryFn: (queryParams) =>
+    queryKey: [resource, 'getList', { pagination, sort, filter, meta }],
+    queryFn: queryParams =>
       dataProvider
         .getList<RecordType>(resource, {
           pagination,
@@ -84,16 +79,12 @@ export const useGetList = <
       result.data?.data &&
       result.data.data.length <= MAX_DATA_LENGTH_TO_CACHE
     ) {
-      result.data.data.forEach((record) => {
+      result.data.data.forEach(record => {
         const recordId = record.slug ?? String(record.id);
         queryClient.setQueryData(
-          [
-            resourceValue.current,
-            "getOne",
-            { id: recordId, },
-          ],
-          (oldRecord) => {
-            return oldRecord ?? record
+          [resourceValue.current, 'getOne', { id: recordId }],
+          oldRecord => {
+            return oldRecord ?? record;
           }
         );
       });
@@ -113,7 +104,7 @@ export const useGetList = <
   }, [onErrorEvent, result.error, result.isFetching]);
 
   useEffect(() => {
-    if (result.status === "pending" || result.isFetching) return;
+    if (result.status === 'pending' || result.isFetching) return;
     onSettledEvent(result.data, result.error);
   }, [
     onSettledEvent,
@@ -124,12 +115,13 @@ export const useGetList = <
   ]);
 
   return useMemo(
-    () => result.data
-      ? {
-        ...result,
-        ...result.data,
-      }
-      : result,
+    () =>
+      result.data
+        ? {
+            ...result,
+            ...result.data,
+          }
+        : result,
     [result]
   ) as unknown as UseQueryResult<RecordType[], Error> & {
     total?: number;
@@ -145,10 +137,10 @@ const noop = () => undefined;
 
 export type UseGetListOptions<
   RecordType extends UiRecord = any,
-  ErrorType = Error
+  ErrorType = Error,
 > = Omit<
   UseQueryOptions<GetListResult<RecordType>, ErrorType>,
-  "queryKey" | "queryFn"
+  'queryKey' | 'queryFn'
 > & {
   onSuccess?: (value: GetListResult<RecordType>) => void;
   onError?: (error: ErrorType) => void;
