@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { ResourceContext, ResourceContextValue } from "./ResourceContext";
-import { ResourceItem } from "../types";
+import { useContext } from 'react';
+import { ResourceContext, ResourceContextValue } from './ResourceContext';
+import { ResourceItem } from '../types';
 
 export const useResourceContext = <
   ResourceInformationsType extends Partial<{ resource: ResourceItem }>,

@@ -8,9 +8,4 @@ export * from './useGetList';
 export * from './useGetOne';
 export * from './useRefresh';
 
-export {
-  DataProviderContext,
-  dataProviderTransform,
-  fetchUtils,
-  HttpError,
-};
+export { DataProviderContext, dataProviderTransform, fetchUtils, HttpError };

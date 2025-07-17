@@ -1,11 +1,7 @@
-import { generatePath, useParams } from "react-router";
-import {
-  ResourceItem,
-  useBasename,
-  useCreatePath,
-} from "../../../frame";
-import { BreadcrumbPath } from "../../../ui-materialui";
-import { matches } from "lodash";
+import { generatePath, useParams } from 'react-router';
+import { ResourceItem, useBasename, useCreatePath } from '../../../frame';
+import { BreadcrumbPath } from '../../../ui-materialui';
+import { matches } from 'lodash';
 
 export type BreadcrumbPathMap = Record<string, BreadcrumbPath>;
 export type ResourceBreadcrumbPathMap = Record<string, BreadcrumbPathMap>;
@@ -17,192 +13,192 @@ export const useResourceBreadcrumbPaths = (
   const basename = useBasename();
   const resourceName = resource.name ?? '';
 
-  const competitionsKey = "competitions";
+  const competitionsKey = 'competitions';
   const competitionsPath = {
     [competitionsKey]: {
-      label: "Competitions",
+      label: 'Competitions',
       to: `${basename}/competitions`,
     },
     [`${competitionsKey}.create`]: {
-      label: "Create",
+      label: 'Create',
       to: createPath({
-        resource: "competitions",
-        type: "create",
+        resource: 'competitions',
+        type: 'create',
       }),
     },
     [`${competitionsKey}.edit`]: {
       label: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        return !competition ? "Show" : competition.name;
+        const competition = pathContext['competitions'];
+        return !competition ? 'Show' : competition.name;
       },
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
+        const competition = pathContext['competitions'];
         return competition
           ? createPath({
-              resource: "competitions",
+              resource: 'competitions',
               id: competition.slug,
-              type: "show",
+              type: 'show',
             })
-          : "";
+          : '';
       },
     },
     [`${competitionsKey}.show`]: {
       label: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        return !competition ? "Show" : competition.name;
+        const competition = pathContext['competitions'];
+        return !competition ? 'Show' : competition.name;
       },
     },
   };
 
-  const seasonsKey = "competitions.edit.seasons";
+  const seasonsKey = 'competitions.edit.seasons';
   const seasonsPath = {
     [seasonsKey]: {
-      label: "Seasons",
+      label: 'Seasons',
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
+        const competition = pathContext['competitions'];
         return competition
           ? `${basename}/competitions/${competition.slug}/seasons`
-          : "";
+          : '';
       },
     },
     [`${seasonsKey}.create`]: {
-      label: "Create",
+      label: 'Create',
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
+        const competition = pathContext['competitions'];
         return competition
           ? createPath({
               resource: `competitions/${competition.slug}/seasons`,
-              type: "create",
+              type: 'create',
             })
-          : "";
-      }
+          : '';
+      },
     },
     [`${seasonsKey}.edit`]: {
       label: (pathContext: any) => {
-        const season = pathContext["seasons"];
-        return !season ? "Show" : season.name;
+        const season = pathContext['seasons'];
+        return !season ? 'Show' : season.name;
       },
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
         return competition && season
           ? createPath({
               resource: `competitions/${competition.slug}/seasons`,
               id: season.slug,
-              type: "show",
+              type: 'show',
             })
-          : "";
+          : '';
       },
     },
     [`${seasonsKey}.show`]: {
       label: (pathContext: any) => {
-        const season = pathContext["seasons"];
-        return !season ? "Show" : season.name;
+        const season = pathContext['seasons'];
+        return !season ? 'Show' : season.name;
       },
     },
   };
 
-  const roundsKey = "competitions.edit.seasons.edit.rounds";
+  const roundsKey = 'competitions.edit.seasons.edit.rounds';
   const roundsPath = {
     [roundsKey]: {
-      label: "Rounds",
+      label: 'Rounds',
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
         return competition && season
           ? `${basename}/competitions/${competition.slug}/seasons/${season.slug}/rounds`
-          : "";
+          : '';
       },
     },
     [`${roundsKey}.create`]: {
-      label: "Create",
+      label: 'Create',
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
         return competition && season
           ? createPath({
               resource: `competitions/${competition.slug}/seasons/${season.slug}/rounds`,
-              type: "create",
+              type: 'create',
             })
-          : "";
+          : '';
       },
     },
     [`${roundsKey}.edit`]: {
       label: (pathContext: any) => {
-        const round = pathContext["rounds"];
-        return !round ? "Show" : round.name;
+        const round = pathContext['rounds'];
+        return !round ? 'Show' : round.name;
       },
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
-        const round = pathContext["rounds"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
+        const round = pathContext['rounds'];
         return competition && season && round
           ? createPath({
               resource: `competitions/${competition.slug}/seasons/${season.slug}/rounds`,
               id: round.slug,
-              type: "show",
+              type: 'show',
             })
-          : "";
+          : '';
       },
     },
     [`${roundsKey}.show`]: {
       label: (pathContext: any) => {
-        const round = pathContext["rounds"];
-        return !round ? "Show" : round.name;
+        const round = pathContext['rounds'];
+        return !round ? 'Show' : round.name;
       },
     },
   };
 
-  const matchesKey = "competitions.edit.seasons.edit.rounds.edit.matches";
+  const matchesKey = 'competitions.edit.seasons.edit.rounds.edit.matches';
   const matchesPath = {
     [matchesKey]: {
-      label: "Matches",
+      label: 'Matches',
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
-        const round = pathContext["rounds"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
+        const round = pathContext['rounds'];
         return competition && season && round
           ? `${basename}/competitions/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`
-          : "";
+          : '';
       },
     },
     [`${matchesKey}.create`]: {
-      label: "Create",
+      label: 'Create',
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
-        const round = pathContext["rounds"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
+        const round = pathContext['rounds'];
         return competition && season && round
           ? createPath({
               resource: `competitions/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`,
-              type: "create",
+              type: 'create',
             })
-          : "";
+          : '';
       },
     },
     [`${matchesKey}.edit`]: {
       label: (pathContext: any) => {
-        const match = pathContext["matches"];
-        return !match ? "Show" : match.slug;
+        const match = pathContext['matches'];
+        return !match ? 'Show' : match.slug;
       },
       to: (pathContext: any) => {
-        const competition = pathContext["competitions"];
-        const season = pathContext["seasons"];
-        const round = pathContext["rounds"];
-        const match = pathContext["matches"];
+        const competition = pathContext['competitions'];
+        const season = pathContext['seasons'];
+        const round = pathContext['rounds'];
+        const match = pathContext['matches'];
         return competition && season && round && match
           ? createPath({
               resource: `competitions/${competition.slug}/seasons/${season.slug}/rounds/${round.slug}/matches`,
               id: match.slug,
-              type: "show",
+              type: 'show',
             })
-          : "";
+          : '';
       },
     },
     [`${matchesKey}.show`]: {
       label: (pathContext: any) => {
-        const match = pathContext["matches"];
-        return !match ? "Show" : match.slug;
+        const match = pathContext['matches'];
+        return !match ? 'Show' : match.slug;
       },
     },
   };

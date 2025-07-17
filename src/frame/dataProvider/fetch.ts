@@ -31,7 +31,10 @@ export const createHeadersFromOptions = (options: Options): Headers => {
   return requestHeaders;
 };
 
-export const fetchJson = (url: string | URL | Request, options: Options = {}) => {
+export const fetchJson = (
+  url: string | URL | Request,
+  options: Options = {}
+) => {
   const requestHeaders = createHeadersFromOptions(options);
 
   return fetch(url, { ...options, headers: requestHeaders })
@@ -48,19 +51,15 @@ export const fetchJson = (url: string | URL | Request, options: Options = {}) =>
       try {
         json = JSON.parse(body);
       } catch (e) {
-          // not json, no big deal
+        // not json, no big deal
       }
       if (status < 200 || status >= 300) {
         return Promise.reject(
-          new HttpError(
-            (json && json.message) || statusText,
-            status,
-            json
-          )
+          new HttpError((json && json.message) || statusText, status, json)
         );
       }
-    return Promise.resolve({ status, headers, body, json });
-    })
+      return Promise.resolve({ status, headers, body, json });
+    });
 };
 
 export const queryParameters = stringify;
@@ -72,22 +71,21 @@ const isValidObject = (value: any) => {
 
   const isArray = Array.isArray(value);
   const isBuffer = typeof Buffer !== 'undefined' && Buffer.isBuffer(value);
-  const isObject =
-    Object.prototype.toString.call(value) === '[object Object]';
+  const isObject = Object.prototype.toString.call(value) === '[object Object]';
   const hasKeys = !!Object.keys(value).length;
 
   return !isArray && !isBuffer && isObject && hasKeys;
 };
 
 export const flattenObject = (value: any, path: string[] = []): any => {
-    if (isValidObject(value)) {
-      return Object.assign(
-        {},
-        ...Object.keys(value).map(key =>
-          flattenObject(value[key], path.concat([key]))
-        )
-      );
-    } else {
-        return path.length ? { [path.join('.')]: value } : value;
-    }
+  if (isValidObject(value)) {
+    return Object.assign(
+      {},
+      ...Object.keys(value).map(key =>
+        flattenObject(value[key], path.concat([key]))
+      )
+    );
+  } else {
+    return path.length ? { [path.join('.')]: value } : value;
+  }
 };

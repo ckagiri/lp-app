@@ -1,11 +1,11 @@
-import { generatePath, useParams } from "react-router";
-import { useResourceContext } from "../../core";
-import { useGetList, UseGetListOptions } from "../../dataProvider";
-import { ResourceItem, UiRecord } from "../../types";
+import { generatePath, useParams } from 'react-router';
+import { useResourceContext } from '../../core';
+import { useGetList, UseGetListOptions } from '../../dataProvider';
+import { ResourceItem, UiRecord } from '../../types';
 
 export const useListController = <
   RecordType extends UiRecord = any,
-  ErrorType = Error
+  ErrorType = Error,
 >(
   props: ListControllerProps<RecordType, ErrorType> = {}
 ): ListControllerResult<RecordType, ErrorType> => {
@@ -22,7 +22,10 @@ export const useListController = <
   const params = useParams();
   let resourcePath = resource.path;
   if (!resourcePath) {
-    resourcePath = generatePath((resource.route || resource.name) as string, params);
+    resourcePath = generatePath(
+      (resource.route || resource.name) as string,
+      params
+    );
     resource.path = resourcePath;
   }
 
@@ -52,7 +55,7 @@ export const useListController = <
 };
 export interface ListControllerProps<
   RecordType extends UiRecord = any,
-  ErrorType = Error
+  ErrorType = Error,
 > {
   queryOptions?: UseGetListOptions<RecordType, ErrorType>;
   resource?: ResourceItem;
@@ -77,7 +80,7 @@ export interface ListControllerLoadingResult<RecordType extends UiRecord = any>
 }
 export interface ListControllerErrorResult<
   RecordType extends UiRecord = any,
-  TError = Error
+  TError = Error,
 > extends ListControllerBaseResult<RecordType> {
   data: undefined;
   total: undefined;
@@ -97,7 +100,7 @@ export interface ListControllerSuccessResult<RecordType extends UiRecord = any>
 
 export type ListControllerResult<
   RecordType extends UiRecord = any,
-  ErrorType = Error
+  ErrorType = Error,
 > =
   | ListControllerLoadingResult<RecordType>
   | ListControllerErrorResult<RecordType, ErrorType>

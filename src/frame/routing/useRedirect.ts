@@ -1,14 +1,14 @@
-import { To, useNavigate } from "react-router-dom";
-import { useBasename } from "./useBasename";
-import { useCreatePath } from "./useCreatePath";
-import { useCallback } from "react";
-import { Identifier, UiRecord } from "../types";
+import { To, useNavigate } from 'react-router-dom';
+import { useBasename } from './useBasename';
+import { useCreatePath } from './useCreatePath';
+import { useCallback } from 'react';
+import { Identifier, UiRecord } from '../types';
 
 type RedirectToFunction = (
-    resource?: string,
-    id?: Identifier,
-    data?: Partial<UiRecord>,
-    state?: object
+  resource?: string,
+  id?: Identifier,
+  data?: Partial<UiRecord>,
+  state?: object
 ) => To;
 
 export type RedirectionSideEffect = string | false | RedirectToFunction;
@@ -21,21 +21,21 @@ export const useRedirect = () => {
   return useCallback(
     (
       redirectTo: RedirectionSideEffect,
-      resource: string = "",
+      resource: string = '',
       id?: Identifier,
       data?: Partial<UiRecord>,
       state: object = {}
     ) => {
       if (!redirectTo) {
         return;
-      } else if (typeof redirectTo === "function") {
+      } else if (typeof redirectTo === 'function') {
         const target: To = redirectTo(resource, id, data);
         const absoluteTarget =
-          typeof target === "string"
-            ? `${basename}${target.startsWith("/") ? "" : "/"}${target}`
+          typeof target === 'string'
+            ? `${basename}${target.startsWith('/') ? '' : '/'}${target}`
             : {
                 pathname: `${basename}${
-                  target.pathname?.startsWith("/") ? "" : "/"
+                  target.pathname?.startsWith('/') ? '' : '/'
                 }${target.pathname}`,
                 ...target,
               };
@@ -44,8 +44,8 @@ export const useRedirect = () => {
         });
         return;
       } else if (
-        typeof redirectTo === "string" &&
-        redirectTo.startsWith("http") &&
+        typeof redirectTo === 'string' &&
+        redirectTo.startsWith('http') &&
         window
       ) {
         // redirection to an absolute url
@@ -58,7 +58,7 @@ export const useRedirect = () => {
           state:
             // We force the scrollToTop except when navigating to a list
             // where this is already done by <RestoreScrollPosition> in <Resource>
-            redirectTo === "list" ? state : { _scrollToTop: true, ...state },
+            redirectTo === 'list' ? state : { _scrollToTop: true, ...state },
         });
         return;
       }
