@@ -3,19 +3,20 @@ import {
   fetchActionsWithArrayOfIdentifiedRecordsResponse,
   fetchActionsWithArrayOfRecordsResponse,
   fetchActionsWithTotalResponse,
-} from "./dataFetchActions";
+} from './dataFetchActions';
 
 function validateResponseFormat(
   response: any,
   type: string,
-  logger = console.error // eslint-disable-line no-console
+  logger = console.error
 ) {
-  const DATA_PROVIDER_ERROR = 'DataProvider error. Check the console for details.';
+  const DATA_PROVIDER_ERROR =
+    'DataProvider error. Check the console for details.';
   if (!response) {
     logger(`The dataProvider returned an empty response for '${type}'.`);
     throw new Error(DATA_PROVIDER_ERROR);
   }
-  if (!response.hasOwnProperty("data")) {
+  if (!Object.prototype.hasOwnProperty.call(response, 'data')) {
     logger(
       `The response to '${type}' must be like { data: ... }, but the received response does not have a 'data' key. The dataProvider is probably wrong for '${type}'.`
     );
@@ -34,7 +35,7 @@ function validateResponseFormat(
     fetchActionsWithArrayOfIdentifiedRecordsResponse.includes(type) &&
     Array.isArray(response.data) &&
     response.data.length > 0 &&
-    !response.data[0].hasOwnProperty("id")
+    !Object.prototype.hasOwnProperty.call(response.data[0], 'id')
   ) {
     logger(
       `The response to '${type}' must be like { data : [{ id: 123, ...}, ...] }, but the received data items do not have an 'id' key. The dataProvider is probably wrong for '${type}'`
@@ -43,7 +44,7 @@ function validateResponseFormat(
   }
   if (
     fetchActionsWithRecordResponse.includes(type) &&
-    !response.data.hasOwnProperty("id")
+    !Object.prototype.hasOwnProperty.call(response.data, 'id')
   ) {
     logger(
       `The response to '${type}' must be like { data: { id: 123, ... } }, but the received data does not have an 'id' key. The dataProvider is probably wrong for '${type}'`
@@ -52,8 +53,8 @@ function validateResponseFormat(
   }
   if (
     fetchActionsWithTotalResponse.includes(type) &&
-    !response.hasOwnProperty("total") &&
-    !response.hasOwnProperty("pageInfo")
+    !Object.prototype.hasOwnProperty.call(response, 'total') &&
+    !Object.prototype.hasOwnProperty.call(response, 'pageInfo')
   ) {
     logger(
       `The response to '${type}' must be like  { data: [...], total: 123 }, but the received response does not have a 'total' key. The dataProvider is probably wrong for '${type}'`

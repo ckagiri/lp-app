@@ -19,11 +19,11 @@ jest.spyOn(console, 'error').mockImplementation((...args) => {
 /**
  * Mock fetch objects Response, Request and Headers
  */
-const { Response, Headers, Request } = require('whatwg-fetch');
+import { Response, Headers, Request } from 'whatwg-fetch';
 
-global.Response = Response;
-global.Headers = Headers;
-global.Request = Request;
+global.Response = Response as any;
+global.Headers = Headers as any;
+global.Request = Request as any;
 
 /** Mock scrollTo as it is not supported by JSDOM */
 global.scrollTo = jest.fn();

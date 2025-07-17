@@ -1,22 +1,21 @@
-import { Store } from "./types";
+import { Store } from './types';
 
 type Subscription = {
   key: string;
   callback: (value: any) => void;
 };
 
-const UI_STORE = "UiStore";
+const UI_STORE = 'UiStore';
 
 // localStorage isn't available in incognito mode. We need to detect it
 const testLocalStorage = () => {
-  // eslint-disable-next-line eqeqeq
-  if (typeof window === "undefined" || window.localStorage == undefined) {
+  if (typeof window === 'undefined' || window.localStorage == undefined) {
     return false;
   }
 
   try {
-    window.localStorage.setItem("test", "test");
-    window.localStorage.removeItem("test");
+    window.localStorage.setItem('test', 'test');
+    window.localStorage.removeItem('test');
     return true;
   } catch (e) {
     return false;
@@ -25,12 +24,12 @@ const testLocalStorage = () => {
 
 const localStorageAvailable = testLocalStorage();
 
-export const localStorageStore = ({ version = "1", appKey = "" }): Store => {
+export const localStorageStore = ({ version = '1', appKey = '' }): Store => {
   const prefix = `${UI_STORE}${appKey}`;
   const prefixLength = prefix.length;
   const subscriptions: { [key: string]: Subscription } = {};
   const publish = (key: string, value: any) => {
-    Object.keys(subscriptions).forEach((id) => {
+    Object.keys(subscriptions).forEach(id => {
       if (!subscriptions[id]) return; // may happen if a component unmounts after a first subscriber was notified
       if (subscriptions[id].key === key) {
         subscriptions[id].callback(value);
@@ -46,7 +45,7 @@ export const localStorageStore = ({ version = "1", appKey = "" }): Store => {
     }
     const key = event.key.substring(prefixLength + 1);
     const value = event.newValue ? tryParse(event.newValue) : undefined;
-    Object.keys(subscriptions).forEach((id) => {
+    Object.keys(subscriptions).forEach(id => {
       if (!subscriptions[id]) return; // may happen if a component unmounts after a first subscriber was notified
       if (subscriptions[id].key === key) {
         if (value === null) {
@@ -66,19 +65,19 @@ export const localStorageStore = ({ version = "1", appKey = "" }): Store => {
         const storedVersion = getStorage().getItem(`${prefix}.version`);
         if (storedVersion && storedVersion !== version) {
           const storage = getStorage();
-          Object.keys(storage).forEach((key) => {
+          Object.keys(storage).forEach(key => {
             if (key.startsWith(prefix)) {
               storage.removeItem(key);
             }
           });
         }
         getStorage().setItem(`${prefix}.version`, version);
-        window.addEventListener("storage", onLocalStorageChange);
+        window.addEventListener('storage', onLocalStorageChange);
       }
     },
     teardown: () => {
       if (localStorageAvailable) {
-        window.removeEventListener("storage", onLocalStorageChange);
+        window.removeEventListener('storage', onLocalStorageChange);
       }
     },
     getItem<T = any>(key: string, defaultValue?: T): T {
@@ -88,7 +87,9 @@ export const localStorageStore = ({ version = "1", appKey = "" }): Store => {
         if (defaultValue !== undefined) {
           return defaultValue;
         }
-        throw new Error(`No value found in storage for key "${key}" and no defaultValue provided.`);
+        throw new Error(
+          `No value found in storage for key "${key}" and no defaultValue provided.`
+        );
       }
       return tryParse(valueFromStorage);
     },
@@ -106,7 +107,7 @@ export const localStorageStore = ({ version = "1", appKey = "" }): Store => {
     },
     removeItems(keyPrefix: string): void {
       const storage = getStorage();
-      Object.keys(storage).forEach((key) => {
+      Object.keys(storage).forEach(key => {
         if (key.startsWith(`${prefix}.${keyPrefix}`)) {
           storage.removeItem(key);
           const publishKey = key.substring(prefixLength + 1);
@@ -116,7 +117,7 @@ export const localStorageStore = ({ version = "1", appKey = "" }): Store => {
     },
     reset(): void {
       const storage = getStorage();
-      Object.keys(storage).forEach((key) => {
+      Object.keys(storage).forEach(key => {
         if (key.startsWith(prefix)) {
           storage.removeItem(key);
           const publishKey = key.substring(prefixLength + 1);

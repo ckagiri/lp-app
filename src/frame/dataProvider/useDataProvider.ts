@@ -1,13 +1,13 @@
-import { useContext, useMemo } from "react";
-import { DataProvider } from "../types";
-import { useQueryClient } from "@tanstack/react-query";
-import DataProviderContext from "./DataProviderContext";
-import { defaultDataProvider } from "./defaultDataProvider";
-import { dataFetchActions } from "./dataFetchActions";
-import validateResponseFormat from "./validateResponseFormat";
+import { useContext, useMemo } from 'react';
+import { DataProvider } from '../types';
+import { useQueryClient } from '@tanstack/react-query';
+import DataProviderContext from './DataProviderContext';
+import { defaultDataProvider } from './defaultDataProvider';
+import { dataFetchActions } from './dataFetchActions';
+import validateResponseFormat from './validateResponseFormat';
 
 export const useDataProvider = <
-  TDataProvider extends DataProvider = DataProvider
+  TDataProvider extends DataProvider = DataProvider,
 >(): TDataProvider => {
   const dataProvider = (useContext(DataProviderContext) ||
     defaultDataProvider) as unknown as TDataProvider;
@@ -16,24 +16,23 @@ export const useDataProvider = <
   const dataProviderProxy = useMemo(() => {
     return new Proxy(dataProvider, {
       get: (_, name) => {
-        if (typeof name === "symbol" || name === "then") {
+        if (typeof name === 'symbol' || name === 'then') {
           return;
         }
-        if (name === "supportAbortSignal") {
+        if (name === 'supportAbortSignal') {
           return dataProvider.supportAbortSignal;
         }
         return (...args: any) => {
           const type = name.toString();
 
-          if (typeof dataProvider[type] !== "function") {
+          if (typeof dataProvider[type] !== 'function') {
             throw new Error(`Unknown dataProvider function: ${type}`);
           }
           try {
-            return dataProvider[type]
-              .apply(dataProvider, args)
+            return dataProvider[type](...args)
               .then((response: { meta: { prefetched: any } }) => {
                 if (
-                  process.env.NODE_ENV === "development" &&
+                  process.env.NODE_ENV === 'development' &&
                   dataFetchActions.includes(type)
                 ) {
                   validateResponseFormat(response, type);
@@ -42,7 +41,7 @@ export const useDataProvider = <
               })
               .catch((error: any) => {
                 if (
-                  process.env.NODE_ENV !== "production" &&
+                  process.env.NODE_ENV !== 'production' &&
                   // do not log AbortErrors
                   !isAbortError(error)
                 ) {
@@ -50,11 +49,11 @@ export const useDataProvider = <
                 }
               });
           } catch (e) {
-            if (process.env.NODE_ENV !== "production") {
+            if (process.env.NODE_ENV !== 'production') {
               console.error(e);
             }
             throw new Error(
-              "The dataProvider threw an error. It should return a rejected Promise instead."
+              'The dataProvider threw an error. It should return a rejected Promise instead.'
             );
           }
         };
@@ -67,4 +66,4 @@ export const useDataProvider = <
 
 const isAbortError = (error: DOMException) =>
   error instanceof DOMException &&
-  (error as DOMException).name === "AbortError";
+  (error as DOMException).name === 'AbortError';

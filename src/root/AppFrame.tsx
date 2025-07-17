@@ -1,17 +1,25 @@
-import { CssBaseline } from "@mui/material";
+import { CssBaseline } from '@mui/material';
 import {
   CoreFrameContext,
   CoreFrameContextProps,
   CoreFrameUI,
   CoreFrameUIProps,
   localStorageStore,
-} from "../frame";
-import simpleRestProvider from "../data-simple-rest";
+} from '../frame';
+import simpleRestProvider from '../data-simple-rest';
 
-import { QueryClient } from "@tanstack/react-query";
-import { defaultDarkTheme, defaultLightTheme, ThemeProvider, ThemesContext, UiThemeOptions } from "../ui-materialui";
+import { QueryClient } from '@tanstack/react-query';
+import {
+  defaultDarkTheme,
+  defaultLightTheme,
+  ThemeProvider,
+  ThemesContext,
+  UiThemeOptions,
+} from '../ui-materialui';
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3110/api" //"https://nialine.com/api";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'; //"https://nialine.com/api";
+const dataProvider = simpleRestProvider(API_URL);
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -42,8 +50,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const dataProvider = simpleRestProvider(API_URL);
-
 export const AppFrame = (props: CoreFrameProps) => {
   const {
     adminLayout,
@@ -56,10 +62,10 @@ export const AppFrame = (props: CoreFrameProps) => {
 
   return (
     <CoreFrameContext
-       dataProvider={dataProvider}
-       queryClient={queryClient}
-       store={localStorageStore({ appKey: "ligi" })}
-       >
+      dataProvider={dataProvider}
+      queryClient={queryClient}
+      store={localStorageStore({ appKey: 'ligi' })}
+    >
       <ThemesContext.Provider
         value={{
           lightTheme: theme || lightTheme,
@@ -67,8 +73,8 @@ export const AppFrame = (props: CoreFrameProps) => {
             theme && !darkTheme
               ? undefined
               : !darkTheme && darkTheme !== null
-              ? defaultDarkTheme
-              : darkTheme ?? undefined,
+                ? defaultDarkTheme
+                : (darkTheme ?? undefined),
           defaultTheme,
         }}
       >
@@ -86,7 +92,7 @@ export interface AppFrameContextProps extends CoreFrameContextProps {
   theme?: UiThemeOptions;
   lightTheme?: UiThemeOptions;
   darkTheme?: UiThemeOptions | null;
-  defaultTheme?: "dark" | "light";
+  defaultTheme?: 'dark' | 'light';
 }
 
 export type CoreFrameProps = AppFrameContextProps & CoreFrameUIProps;

@@ -1,10 +1,10 @@
-import { ComponentType, ReactElement, ReactNode } from "react";
+import { ComponentType, ReactElement, ReactNode } from 'react';
 
 export type Identifier = string | number;
 export interface UiRecord<IdentifierType extends Identifier = Identifier>
   extends Record<string, any> {
-    id: IdentifierType;
-    slug?: string;
+  id: IdentifierType;
+  slug?: string;
 }
 
 export interface ResourceOptions {
@@ -66,52 +66,52 @@ export interface GetManyResult<RecordType extends UiRecord = any> {
 }
 
 export interface UpdateParams<RecordType extends UiRecord = any> {
-    id: RecordType['id'];
-    data: Partial<RecordType>;
-    previousData: RecordType;
-    meta?: any;
+  id: RecordType['id'];
+  data: Partial<RecordType>;
+  previousData: RecordType;
+  meta?: any;
 }
 export interface UpdateResult<RecordType extends UiRecord = any> {
-    data: RecordType;
-    meta?: any;
+  data: RecordType;
+  meta?: any;
 }
 
 export interface UpdateManyParams<T = any> {
-    ids: Identifier[];
-    data: Partial<T>;
-    meta?: any;
+  ids: Identifier[];
+  data: Partial<T>;
+  meta?: any;
 }
 export interface UpdateManyResult<RecordType extends UiRecord = any> {
-    data?: RecordType['id'][];
-    meta?: any;
+  data?: RecordType['id'][];
+  meta?: any;
 }
 
 export interface CreateParams<T = any> {
-    data: Partial<T>;
-    meta?: any;
+  data: Partial<T>;
+  meta?: any;
 }
 export interface CreateResult<RecordType extends UiRecord = any> {
-    data: RecordType;
-    meta?: any;
+  data: RecordType;
+  meta?: any;
 }
 
 export interface DeleteParams<RecordType extends UiRecord = any> {
-    id: RecordType['id'];
-    previousData?: RecordType;
-    meta?: any;
+  id: RecordType['id'];
+  previousData?: RecordType;
+  meta?: any;
 }
 export interface DeleteResult<RecordType extends UiRecord = any> {
-    data: RecordType;
-    meta?: any;
+  data: RecordType;
+  meta?: any;
 }
 
 export interface DeleteManyParams<RecordType extends UiRecord = any> {
-    ids: RecordType['id'][];
-    meta?: any;
+  ids: RecordType['id'][];
+  meta?: any;
 }
 export interface DeleteManyResult<RecordType extends UiRecord = any> {
-    data?: RecordType['id'][];
-    meta?: any;
+  data?: RecordType['id'][];
+  meta?: any;
 }
 export type RecordToStringFunction = (record: any) => string;
 
@@ -148,13 +148,13 @@ export interface ResourceProps {
 export type ResourceElement = ReactElement<ResourceProps>;
 export type RenderResourcesFunction = (permissions: any) =>
   | ReactNode // (permissions) => <><Resource /><Resource /><Resource /></>
-  | ResourceElement[] // (permissions) => [<Resource />, <Resource />, <Resource />]
+  | ResourceElement[]; // (permissions) => [<Resource />, <Resource />, <Resource />]
 export type FrameChildren =
   | RenderResourcesFunction
   | Iterable<ReactNode | RenderResourcesFunction>
   | ReactNode;
 
-export type TitleComponent = ComponentType<{}> | ReactElement<any>;
+export type TitleComponent = ComponentType<object> | ReactElement<any>;
 export type CatchAllComponent = ComponentType<{ title?: TitleComponent }>;
 
 export interface CoreLayoutProps {
@@ -171,54 +171,54 @@ export type ResourceItem = {
   name?: string;
   route?: string;
   path?: string;
-}
+};
 
 export type DataProvider<ResourceType extends string = string> = {
-    getList: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: GetListParams & QueryFunctionContext
-    ) => Promise<GetListResult<RecordType>>;
+  getList: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: GetListParams & QueryFunctionContext
+  ) => Promise<GetListResult<RecordType>>;
 
-    getOne: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: GetOneParams<RecordType> & QueryFunctionContext
-    ) => Promise<GetOneResult<RecordType>>;
+  getOne: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: GetOneParams<RecordType> & QueryFunctionContext
+  ) => Promise<GetOneResult<RecordType>>;
 
-    getMany: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: GetManyParams<RecordType> & QueryFunctionContext
-    ) => Promise<GetManyResult<RecordType>>;
+  getMany: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: GetManyParams<RecordType> & QueryFunctionContext
+  ) => Promise<GetManyResult<RecordType>>;
 
-    update: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: UpdateParams
-    ) => Promise<UpdateResult<RecordType>>;
+  update: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: UpdateParams
+  ) => Promise<UpdateResult<RecordType>>;
 
-    updateMany: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: UpdateManyParams
-    ) => Promise<UpdateManyResult<RecordType>>;
+  updateMany: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: UpdateManyParams
+  ) => Promise<UpdateManyResult<RecordType>>;
 
-    create: <
-      RecordType extends Omit<UiRecord, 'id'> = any,
-      ResultRecordType extends UiRecord = RecordType & { id: Identifier },
-    >(
-      resource: ResourceType,
-      params: CreateParams
-    ) => Promise<CreateResult<ResultRecordType>>;
+  create: <
+    RecordType extends Omit<UiRecord, 'id'> = any,
+    ResultRecordType extends UiRecord = RecordType & { id: Identifier },
+  >(
+    resource: ResourceType,
+    params: CreateParams
+  ) => Promise<CreateResult<ResultRecordType>>;
 
-    delete: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: DeleteParams<RecordType>
-    ) => Promise<DeleteResult<RecordType>>;
+  delete: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: DeleteParams<RecordType>
+  ) => Promise<DeleteResult<RecordType>>;
 
-    deleteMany: <RecordType extends UiRecord = any>(
-      resource: ResourceType,
-      params: DeleteManyParams<RecordType>
-    ) => Promise<DeleteManyResult<RecordType>>;
+  deleteMany: <RecordType extends UiRecord = any>(
+    resource: ResourceType,
+    params: DeleteManyParams<RecordType>
+  ) => Promise<DeleteManyResult<RecordType>>;
 
-    [key: string]: any;
-    supportAbortSignal?: boolean;
+  [key: string]: any;
+  supportAbortSignal?: boolean;
 };
 
 export type DataProviderFn = (
